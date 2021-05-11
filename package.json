@@ -1,0 +1,26 @@
+{
+  "name": "faceless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd backend && yarn start",
+    "client": "cd client && yarn start",
+    "dev-start": "NODE_ENV=dev concurrently \"npm run server\" \"npm run client\"",
+    "start": "NODE_ENV=production && (cd backend && yarn && yarn start) && (cd client && yarn && yarn start)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parthiv-M/faceless.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Parthiv-M/faceless/issues"
+  },
+  "homepage": "https://github.com/Parthiv-M/faceless#readme",
+  "dependencies": {
+    "concurrently": "^6.1.0"
+  }
+}
