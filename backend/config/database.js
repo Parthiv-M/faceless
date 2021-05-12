@@ -3,6 +3,7 @@ const nconf = require('nconf');
 
 nconf.argv().env().file({ file: 'config/config.json' });
 
+// method that connects to the MongoDB database
 const connectDB = async () => {
     try {
         await mongoose.connect(nconf.get('mongoDBURI'), {
