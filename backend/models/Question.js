@@ -3,11 +3,14 @@ const Schema = mongoose.Schema;
 
 // mongoose schema for the question
 const Question = new Schema({
+    character: {
+        type: String,
+    },
     question: {
         type: String,
-        required: true
+        required: true,
     },
-    allowed_ans: {
+    allowedAns: {
         type: Array,
         required: true
     }
