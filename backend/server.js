@@ -25,10 +25,10 @@ if(nconf.get('NODE_ENV') === "dev"){
 }
 
 // routes for user actions
-app.use('/user', require('./routes/user'));
+app.use('/api/user', require('./routes/user'));
 
 // routes for the game and its actions
-app.use('/game', require('./routes/game'));
+app.use('/api/game', require('./routes/game'));
 
 // buffer route
 app.get('*', (req, res) => {

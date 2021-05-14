@@ -5,6 +5,11 @@ const Schema = mongoose.Schema;
 const Question = new Schema({
     character: {
         type: String,
+        required: true
+    },
+    level: {
+        type: Number,
+        required: true
     },
     question: {
         type: String,

@@ -22,7 +22,7 @@ router.get('/getQuestion/:characterName', async(req, res) => {
 });
 
 // route to submit the answer to one particular question
-router.post('/submitAnswer/:quesId', async (req, res) => {
+router.post('/submitAnswer/:levelNumber/:quesId', async (req, res) => {
     try {
         var ques = await Question.findOne(
             { _id: req.params.quesId } 

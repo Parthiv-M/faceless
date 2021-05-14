@@ -61,7 +61,6 @@ router.post('/createTeam', authenticate, (req, res) => {
     try {
         // saves the team to database
         team.save().then(async() => {
-            console.log(req.user)
             await User.findOneAndUpdate(
                 { _id: req.user.userId },
                 {
@@ -92,15 +91,15 @@ router.post('/joinTeam', authenticate, async(req, res) => {
                     }
                 }
             }
-        ).then(async() => {
+        ).then(async(team) => {
             await User.findOneAndUpdate(
                 { _id: toJoinUserId },
                 {
                     teamCode: teamCode
                 }
             );
+            res.status(200).send({ message: 'Team joined successfully', teamName: team.teamName });
         });
-        res.status(200).send({ message: 'Team joined successfully' });
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
     }
