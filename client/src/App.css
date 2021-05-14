@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+}
+
+/* customising halfmoon colours */
+:root {
+    --primary-colour: #FEDF00;
+    --contrast-colour: #1b1b1b; 
+}
+
+body {
+    background-color: var(--contrast-colour);
+    font-family: 'PT Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+input {
+    font-weight: bold;
+}
+
+/* navbar link styles */
+
+.navbar-link {
+    color: var(--contrast-colour);
+}
+
+.navbar-link:hover{
+    text-decoration: none;
+    color: white;
+    filter: drop-shadow(0 0 10px var(--contrast-colour));
+    transform: translateY(-5px);
+    transition-duration: 500ms;
+}
+
+/* customise scrollbar */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-colour) rgb(0, 0, 0);
+}
+
+/* Works on Chrome, Edge, and Safari */
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--primary-colour);
+    border: 3px solid var(--contrast-colour);
+}
+
+.content {
+    padding-left: 100px;
+    padding-right: 200px;
+    text-align: justify;
+}
+
+.fixed-background {
+  text-align: center;
+  background-image: url("./assets/facelessBlur.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 400px;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* reposnive design */
+
+@media only screen and (max-width: 800px){
+    .content {
+        padding: 0;
+        padding-right: 40px;
+    }
+}
