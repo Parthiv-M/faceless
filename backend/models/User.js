@@ -22,8 +22,8 @@ const User = new Schema({
     password: {
         type: String,
         required: true
-    },  
-    points: {
+    },
+    score: {
         type: Number,
         default: 0
     },

@@ -7,17 +7,17 @@ const Question = new Schema({
         type: String,
         required: true
     },
-    level: {
-        type: Number,
-        required: true
-    },
     question: {
         type: String,
         required: true,
     },
-    allowedAns: {
-        type: Array,
+    answer: {
+        type: String,
         required: true
+    },
+    points: {
+        type: Number,
+        default: 50
     }
 });
 

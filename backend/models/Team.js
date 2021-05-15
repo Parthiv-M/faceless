@@ -20,9 +20,16 @@ const Team = new Schema({
         type: Number,
         default: 0
     },  
-    points: {
+    score: {
         type: Number,
         default: 0
+    },
+    answerLog: {
+        type: Array
+    },
+    character: {
+        type: String,
+        default: 'Tanvi'
     },
     flagged: [{
         quesId: {

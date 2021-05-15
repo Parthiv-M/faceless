@@ -724,6 +724,13 @@ is-path-inside@^3.0.1:
   resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-3.0.3.tgz#d231362e53a07ff2b0e0ea7fed049161ffd16283"
   integrity sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==
 
+is-subset-of@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/is-subset-of/-/is-subset-of-3.1.5.tgz#6130cafbee2793539b60919ae3675b6d9efcbe60"
+  integrity sha512-KpaqozLHSpZv/0YhV7SP5UIlvW9xtgH8bxmAJVPsMj5kpYvCmHcTnAflS948so4FDSU6OdK2ZSd3jYM16/YDAA==
+  dependencies:
+    typedescriptor "3.0.2"
+
 is-typedarray@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
@@ -1411,6 +1418,11 @@ typedarray-to-buffer@^3.1.5:
   integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
   dependencies:
     is-typedarray "^1.0.0"
+
+typedescriptor@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/typedescriptor/-/typedescriptor-3.0.2.tgz#9ad1715bc2be1cf063d5acbc4cd4bfc96d644225"
+  integrity sha512-hyVbaCUd18UiXk656g/imaBLMogpdijIEpnhWYrSda9rhvO4gOU16n2nh7xG5lv/rjumnZzGOdz0CEGTmFe0fQ==
 
 undefsafe@^2.0.3:
   version "2.0.3"

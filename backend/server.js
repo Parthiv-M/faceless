@@ -30,6 +30,9 @@ app.use('/api/user', require('./routes/user'));
 // routes for the game and its actions
 app.use('/api/game', require('./routes/game'));
 
+// routes for the teams and their actions
+app.use('/api/team', require('./routes/team'));
+
 // buffer route
 app.get('*', (req, res) => {
     if(nconf.get('NODE_ENV') === "dev"){
