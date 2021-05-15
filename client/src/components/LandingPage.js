@@ -13,8 +13,8 @@ const LandingPage = () => {
                     <p>people with many faces</p>
                 </div>
                 <div className="mt-20 d-flex flex-md-row flex-column text-center font-weight-bolder font-size-24 text-light pt-20">
-                    <a href="/signUp" className="btn btn-lg mx-5 my-10 w-150 h-auto bg-transparent" style={{borderRadius:'2.5rem', border:'2px solid #FEDF00', color:'#FEDF00'}} role="button">Register</a>
-                    <a href="/signIn" className="btn btn-lg mx-5 my-10 w-150 h-auto bg-transparent" style={{borderRadius:'2.5rem', border:'2px solid #FEDF00', color:'#FEDF00'}} role="button">Login</a>
+                    <a href="/signUp" className="btn btn-lg mx-5 my-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }} role="button">SIGN UP</a>
+                    <a href="/signIn" className="btn btn-lg mx-5 my-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }} role="button">SIGN IN</a>
                 </div>
                 <div className='d-flex h-150 w-full position-fixed' style={{bottom: 0}}>
                     {/* insert the logos here */}

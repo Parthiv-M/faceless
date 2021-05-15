@@ -16,8 +16,8 @@ const SignUp = () => {
     const dispatch = useAuthDispatch();
     const user = useAuthState();
 
+    // method to handle sign up
     const handleSignUp = async (e) => {
-        console.log(user);
         e.preventDefault();      
         let payload = {
           userName: data.userName,
@@ -33,6 +33,7 @@ const SignUp = () => {
         } 
       }
     
+    // method to handle sign up and join team
     const handleSignUpAndJoin = async (e) => {
         e.preventDefault();      
         let payload = {
@@ -42,10 +43,8 @@ const SignUp = () => {
         }
         setData(payload);
         try {
-          signUpUser(dispatch, payload)
-            .then((resp) => {
-                history.push('/joinTeam');
-            });
+          let response = await signUpUser(dispatch, payload)
+          history.push('/joinTeam');
         } catch (error) {
           console.log(error);
         } 
@@ -75,8 +74,8 @@ const SignUp = () => {
                         <input type="password" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}}/>
                     </div>
                     <div className="mt-md-20 mb-md-10 d-flex flex-md-row flex-column justify-content-center align-items-center text-center font-weight-bolder font-size-24 text-light pt-20 pb-20">
-                        <Button onClick={handleSignUp} className="btn btn-lg mr-md-10 m-10 w-150 h-auto bg-transparent" style={{ borderRadius:'2.5rem', border:'2px solid #FEDF00', color:'#FEDF00' }}>Create Team</Button>
-                        <Button onClick={handleSignUpAndJoin} className="btn btn-lg ml-md-10 m-10 w-150 h-auto" style={{ borderRadius:'2.5rem' }}>Join Team</Button>
+                        <Button onClick={handleSignUp} className="btn btn-lg mr-md-10 m-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }}>Create Team</Button>
+                        <Button onClick={handleSignUpAndJoin} className="btn btn-lg ml-md-10 m-10 w-150 h-auto animate-yellow" style={{ borderRadius:'2.5rem' }}>Join Team</Button>
                     </div>
                 </form>
             </div>

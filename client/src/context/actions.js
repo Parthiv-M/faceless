@@ -3,6 +3,7 @@ import axios  from 'axios';
 // action to sign up a user
 export async function signUpUser(dispatch, signUpPayload) {
   try {
+    dispatch({ type: 'AUTH_REQUEST' });
     let resp = {}
     await axios({
         method: 'POST',
@@ -15,7 +16,6 @@ export async function signUpUser(dispatch, signUpPayload) {
         data: JSON.stringify(signUpPayload),
       })
       .then((response) => {
-        console.log('in .then')
         if (response.status === 200) {
             dispatch({ type: 'SIGNUP_SUCCESS', payload: response.headers['x-auth-token'] });
             localStorage.setItem('token', response.headers['x-auth-token']);
@@ -34,6 +34,7 @@ export async function signUpUser(dispatch, signUpPayload) {
 // action to log a user into the game
 export async function loginUser(dispatch, loginPayload) {
   try {
+    dispatch({ type: 'AUTH_REQUEST' });
     let resp = {}
     await axios({
         method: 'POST',
@@ -131,3 +132,118 @@ export async function joinTeam(dispatch, joinTeamPayload) {
     dispatch({ type: 'JOIN_TEAM_ERROR', error: error });
   }
 }
+
+// action to fetch the scorecard
+export async function getScorecard(dispatch) {
+  try {
+    let resp = {}
+    await axios({
+        method: 'GET',
+        url: '/api/game/getScorecard',
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': "*", 
+            'x-auth-token': localStorage.getItem('token')
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+            resp = response.data;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });        
+      return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// action to fetch the current character of the team from the database
+export async function getCharacterForTeam(dispatch) {
+  try {
+    let resp = {};
+    await axios({
+      method: 'GET',
+      url: '/api/game/getCharacter',
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*", 
+          'x-auth-token': localStorage.getItem('token')
+      },
+    })
+    .then((response) => {
+      if (response.status === 200) {
+          resp = response.data;
+          dispatch({ type: 'LEVEL_SUCCESS', payload: response.data.character });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });        
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// action to fetch questions of the current character from the database
+export async function getQuestionsForTeam(dispatch, payload) {
+  try {
+    let resp = {};
+    await axios({
+      method: 'GET',
+      url: `/api/game/getQuestion/${payload.name}`,
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*", 
+          'x-auth-token': localStorage.getItem('token')
+      },
+    })
+    .then((response) => {
+      if (response.status === 200) {
+          resp = response.data;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });        
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// action to fetch team details from the database
+export async function getTeamDetails(dispatch) {
+  try {
+    let resp = {};
+    await axios({
+      method: 'GET',
+      url: '/api/team/getTeam/',
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*", 
+          'x-auth-token': localStorage.getItem('token')
+      },
+    })
+    .then((response) => {
+      if (response.status === 200) {
+          resp = response.data;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });        
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+

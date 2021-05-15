@@ -11,6 +11,7 @@ const JoinTeam = () => {
     const history = useHistory();
     const dispatch = useAuthDispatch();
 
+    // method to join a team
     const handleJoinTeam = async (e) => {
         e.preventDefault();      
         let payload = {
@@ -20,7 +21,6 @@ const JoinTeam = () => {
         try {
             joinTeam(dispatch, payload)
             .then((resp) => {
-                console.log(resp);
                 history.push('/dashboard');
             });
         } catch (error) {
@@ -48,7 +48,7 @@ const JoinTeam = () => {
                         <input type="text" name="teamcode" className="form-control bg-transparent w-300 w-md-400 mt-5" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { setTeamCode(e.target.value) }}/>
                     </div>
                     <div>
-                        <ChevronRight onClick={handleJoinTeam} color="#FEDF00" style={{ height:'4rem', width:'4rem' }}/>
+                        <ChevronRight onClick={handleJoinTeam} className='animate-right' color="#FEDF00" style={{ height:'4rem', width:'4rem', cursor: 'pointer' }}/>
                     </div>
                 </div> 
             </div>

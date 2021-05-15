@@ -8,7 +8,7 @@ import Loading from './Loader';
 const DashBoard = () => {
 
     const user = useAuthState();
-    console.log(user);
+    
     return (
         user.loading 
         ? 
@@ -24,7 +24,7 @@ const DashBoard = () => {
                     <p>people with many faces</p>
                 </div>
                 <div className="mt-20 text-center font-weight-bolder font-size-24 text-light pt-20">
-                    <a href="/game" className="btn btn-lg mx-5 w-150 h-auto bg-transparent" style={{borderRadius:'2.5rem', border:'2px solid #FEDF00', color:'#FEDF00'}} role="button">Play</a>
+                    <a href="/game" className="btn btn-lg animate-white mx-5 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">P L A Y</a>
                 </div>
             </div>
             <div className="d-xs-block d-md-flex flex-column justify-content-center content" style={{ height: '100vh', width: '100vw' }}>

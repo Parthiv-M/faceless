@@ -7,7 +7,9 @@ import SignUp from './../components/SignUp';
 import SignIn from './../components/SignIn';
 import CreateTeam from './../components/CreateTeam';
 import JoinTeam from './../components/JoinTeam';
-import Game from './../components/Game';
+import GameScreen from './../components/Game';
+import ScoreBoard from './../components/ScoreBoard';
+import TeamProfile from './../components/TeamProfile';
 
 const routes = [  
   {
@@ -37,7 +39,17 @@ const routes = [
   },
   {
     path:'/game',
-    component: Game,
+    component: GameScreen,
+    isPrivate: true
+  },
+  {
+    path:'/scoreboard',
+    component: ScoreBoard,
+    isPrivate: true
+  },
+  {
+    path:'/teamboard',
+    component: TeamProfile,
     isPrivate: true
   },
   {

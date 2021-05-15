@@ -28,7 +28,7 @@ input {
     text-decoration: none;
     color: white;
     filter: drop-shadow(0 0 10px var(--contrast-colour));
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     transition-duration: 500ms;
 }
 
@@ -54,6 +54,16 @@ input {
     border: 3px solid var(--contrast-colour);
 }
 
+/*  customising selection */
+
+::selection{
+    background-color: var(--primary-colour);
+}
+
+::-moz-selection{
+    background-color: var(--primary-colour);
+}
+
 .content {
     padding-left: 100px;
     padding-right: 200px;
@@ -68,8 +78,59 @@ input {
   background-attachment: fixed;
   background-position: center;
   background-size: 400px;
-  height: 100vh;
+  height: 100vh;        
   width: 100vw;
+}
+
+/* button animation */
+
+.animate-white {
+    transition-duration: 100ms;
+    background-color: transparent;
+    color: var(--primary-colour);
+    border: 2px solid var(--primary-colour);
+}
+
+.animate-yellow {
+    transition-duration: 100ms;
+    background-color: white;
+    color: var(--contrast-colour);  
+}
+
+.animate-white:hover {
+    transform: translateY(-5px);
+    background-color: white;
+    color: var(--contrast-colour);
+    border: none;
+}
+
+.animate-yellow:hover {
+    transform: translateY(-5px);
+    background-color: var(--primary-colour);
+    color:var(--contrast-colour);
+    border: none;
+}
+
+.animate-right:hover {
+    transform: translateX(5px);
+    transition-duration: 500ms;
+}
+
+/* teamboard card design */
+
+.teamboard-card {
+    border-radius: 1rem;
+    font-size: 3rem;
+}
+
+.teamboard-card:hover {
+    transform: scale(0.97);
+    transition-duration: 800ms;
+}
+
+.scoreboard-card:hover {
+    transform: scale(0.97);
+    transition-duration: 800ms;
 }
 
 /* reposnive design */

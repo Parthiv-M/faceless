@@ -14,6 +14,7 @@ const SignIn = () => {
     const history = useHistory();
     const dispatch = useAuthDispatch();
 
+    // method to handle sign in
     const handleSignIn = async (e) => {
         e.preventDefault();      
         let payload = {
@@ -49,7 +50,7 @@ const SignIn = () => {
                         <input type="password" className="form-control bg-transparent w-300 w-md-400 mt-10" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.password = e.target.value; }}/>
                     </div>
                     <div>
-                        <ChevronRight onClick={handleSignIn} color="#FEDF00" style={{height:'5rem', width:'5rem'}}/>
+                        <ChevronRight onClick={handleSignIn} className='animate-right' color="#FEDF00" style={{height:'5rem', width:'5rem', cursor: 'pointer'}}/>
                     </div>
                 </div> 
             </div>
