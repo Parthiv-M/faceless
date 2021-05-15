@@ -36,23 +36,29 @@ const SignIn = () => {
                 <div className="w-full w-md-400 py-20">
                     <div className="float-left font-size-24 font-weight-bolder" style = {{color:'#FEDF00'}}>SIGN IN</div>
                 </div>
-                <div className = 'w-full w-md-400'>
-                    <label for="username" className="float-left font-size-18 text-white ">Email ID</label>
-                </div>
-                <div className="w-full w-md-400">
-                    <input type="text" className="form-control bg-transparent w-300 w-md-400 mt-10 " style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.email = e.target.value; }}/>
-                </div>
-                <div className = 'w-full w-md-400'>
-                    <label for="username" className="float-left font-size-18 text-white mt-20">Password</label>
-                </div>
-                <div className="d-flex flex-start w-full w-md-400">
-                    <div>
-                        <input type="password" className="form-control bg-transparent w-300 w-md-400 mt-10" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.password = e.target.value; }}/>
+                <form action="..." method="...">
+                    <div className="form-group">
+                        <div className = 'w-full w-md-400'>
+                            <label for="username" className="required float-left font-size-18 text-white ">Email ID</label>
+                        </div>
+                        <div className="w-full w-md-400">
+                            <input type="text" className="form-control bg-transparent w-300 w-md-400 mt-10 form-control" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.email = e.target.value; }}/>
+                        </div>
                     </div>
-                    <div>
-                        <ChevronRight onClick={handleSignIn} className='animate-right' color="#FEDF00" style={{height:'5rem', width:'5rem', cursor: 'pointer'}}/>
+                    <div className="form-group">
+                        <div className = 'w-full w-md-400'>
+                            <label for="password" className="required float-left font-size-18 text-white mt-20">Password</label>
+                        </div>
+                        <div className="d-flex flex-start w-full w-md-400">
+                            <div>
+                                <input type="password" className="form-control bg-transparent w-300 w-md-400 mt-10 form-control" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.password = e.target.value; }}/>
+                            </div>
+                            <div>
+                                <ChevronRight onClick={handleSignIn} className='animate-right' color="#FEDF00" style={{height:'5rem', width:'5rem', cursor: 'pointer'}}/>
+                            </div>
+                        </div> 
                     </div>
-                </div> 
+                </form>
             </div>
         </div>
     );
