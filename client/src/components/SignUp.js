@@ -58,20 +58,20 @@ const SignUp = () => {
                 </div>
                 <form className="w-md-400 w-350 mw-full">
                     <div className="form-group">
-                        <label for="username" className="float-left text-white">UserName</label>
-                        <input type="text" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.userName = e.target.value; }}/>
+                        <label for="username" className="required float-left text-white">UserName</label>
+                        <input type="text" className="form-control bg-transparent required" id="username" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.userName = e.target.value; }}/>
                     </div>
                     <div className="form-group">
-                        <label for="username" className="float-left text-white">Email ID</label>
-                        <input type="text" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.email = e.target.value; }}/>
+                        <label for="username" className="required float-left text-white">Email ID</label>
+                        <input type="text" className="form-control bg-transparent required" id="username" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.email = e.target.value; }}/>
                     </div>
                     <div className="form-group">
-                        <label for="password" className="float-left text-white">Password</label>
-                        <input type="password" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.password = e.target.value; }}/>
+                        <label for="password" className="required float-left text-white">Password</label>
+                        <input type="password" className="form-control bg-transparent required" id="password" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.password = e.target.value; }}/>
                     </div>
                     <div className="form-group">
-                        <label for="password" className="float-left text-white">Confirm Password</label>
-                        <input type="password" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}}/>
+                        <label for="confirm-password" className="required float-left text-white">Confirm Password</label>
+                        <input type="password" className="form-control bg-transparent required" id="confirm-password" required="required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}}/>
                     </div>
                     <div className="mt-md-20 mb-md-10 d-flex flex-md-row flex-column justify-content-center align-items-center text-center font-weight-bolder font-size-24 text-light pt-20 pb-20">
                         <Button onClick={handleSignUp} className="btn btn-lg mr-md-10 m-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }}>Create Team</Button>
