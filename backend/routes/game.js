@@ -3,31 +3,34 @@ const router = express.Router();
 const User = require('./../models/User');
 const Team = require('./../models/Team');
 const Question = require('./../models/Question');
+const Storyline = require('./../models/Storyline');
 const answerLogger = require('./../middleware/answerLog');
+const levelChecker = require('./../middleware/levelChecker');
+const hintGiver = require('./../middleware/hintGiver');
 const authenticate = require('./../middleware/authenticate');
 const { isSubsetOf } = require('is-subset-of');
 
 // route to display five random questions of a particular character
 router.get('/getQuestion/:characterName', authenticate, async(req, res) => {
-    let fourRandom = [];
+    let fiveRandom = [];
     try {
         var ques = await Question.find({ character: req.params.characterName });
         if(!ques) {
             return res.status(400).send({ error: 'Character/questions not found' });
         }
-        for(let i = 0; i < 4; i++){
+        for(let i = 0; i < 5; i++){
             var randomItem = ques[Math.floor(Math.random() * ques.length)]; // get a random question
-            fourRandom.push(randomItem);                                    // push it to a new array
+            fiveRandom.push(randomItem);                                    // push it to a new array
             ques = ques.filter(item => item != randomItem);                 // remove the selected question from further iterations
         }
-        res.status(200).send(fourRandom);
+        res.status(200).send(fiveRandom);
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
     }
 });
 
 // route to submit the answer to one particular question
-router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, res) => {
+router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, res, next) => {
     try {
         var ques = await Question.find(
             { character: req.params.character } 
@@ -74,8 +77,10 @@ router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, 
                             }
                         }
                     )
-                })
-                res.status(200).send({ message: 'Bingo!', pointsGained: ques.points });
+                });
+                req.correctAnswers = answerArr;
+                next();
+                // res.status(200).send({ message: 'Bingo!', pointsGained: ques.points });
             } else {
                 res.status(400).send({ error: 'Dang! Wrong answer' });
             }
@@ -86,7 +91,7 @@ router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, 
         console.log(error)
         res.status(500).send({ error: 'Server error' });
     }
-});
+}, hintGiver, levelChecker);
 
 // helper route to create question in the database
 router.post('/createQuestion', (req, res) => {
@@ -110,7 +115,7 @@ router.post('/createQuestion', (req, res) => {
     }
 });
 
-// route to get the current character of the user
+// route to get the current character of the team
 router.get('/getCharacter', authenticate, async (req, res) => {
     try {
         let team = await Team.findOne(
@@ -141,6 +146,29 @@ router.get('/getScorecard', authenticate, async(req, res) => {
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
     }
+});
+
+router.post('/createStoryline', (req, res) => {
+    let story = new Storyline({
+        story: req.body.story,
+        character: req.body.character,
+        hints: req.body.hints
+    });
+    story.save().then(() => {
+        res.send(story);
+    })
 })
+
+router.get('/getStoryline/:character', authenticate, async(req, res) => {
+    try {
+        let story = await Storyline.findOne({ character: req.params.character });
+        if(!story) {
+            return res.status(400).send({ error: 'Story not found' });
+        }
+        res.status(200).send({ message: 'Story found', story: story.story });
+    } catch (error) {
+        res.status(500).send({ error: 'Server error' });
+    }
+});
 
 module.exports = router;
