@@ -3,6 +3,7 @@ import { React, useEffect, useState } from 'react';
 import { getTeamDetails } from './../context';
 import Loading from './Loader';
 import Navbar from './NavBar';
+import { User } from 'react-feather';
 
 const TeamProfile = () => {
 
@@ -23,7 +24,7 @@ const TeamProfile = () => {
         getTeam();
     })
 
-    const final = team.answerLog ? team.answerLog.slice(team.answerLog.length-5, team.answerLog.length).map((answer) => {
+    const final = team.answerLog ? team.answerLog.slice(team.answerLog.length-5, team.answerLog.length).reverse().map((answer) => {
         return (
             <div className="p-10 m-10 font-size-20 text-white" style={{ backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
                 {answer}
@@ -60,21 +61,21 @@ const TeamProfile = () => {
                                 P O I N T S 
                             </div>
                     </div>
-                    <div className="mx-md-10 my-10 p-20 h-150 w-full w-md-500 text-center" style={{ backgroundColor:'rgba(72,72,72,0.4)' }}>
-                        <div className="d-flex justify-content-center align-items-center flex-row pb-10">
-                            <div>
-                                <span className="font-size-24 text-white">
-                                    {team.teamMembers[0].userName}
-                                </span>
-                            </div>
+                    <div className="mx-md-10 d-flex justify-content-center align-items-center flex-column my-10 p-20 h-150 w-full w-md-500 text-center" style={{ backgroundColor:'rgba(72,72,72,0.4)' }}>
+                        <div className="d-flex w-150 font-size-24 text-white justify-content-between align-items-center flex-row pb-10">
+                            { team.teamMembers[0].userName }
+                            <span style={{paddingTop: 10}}>
+                                <User size={30} color='#FEDF00'/>
+                            </span> 
                         </div>
                         {
                             Boolean(team.teamMembers[1]) 
                             ? 
-                            <div className="d-flex flex-row justify-content-center align-items-center">
-                                <div className = "font-size-18 text-white">
-                                    { team.teamMembers[1].userName }
-                                </div>
+                            <div className="d-flex flex-row w-150 justify-content-between font-size-24 text-white align-items-center">
+                                { team.teamMembers[1].userName }
+                                <span style={{paddingTop: 10}}>
+                                    <User size={30}/>
+                                </span> 
                             </div>
                             : 
                             <div></div>
@@ -82,7 +83,7 @@ const TeamProfile = () => {
                     </div>
                 </div>
                 {
-                    Boolean(team.answerLog) 
+                    Boolean(team.answerLog.length !== 0) 
                     ? 
                     <>
                     <div className="font-size-24 font-weight-bolder mt-20" style = {{ color:'#FEDF00' }}>

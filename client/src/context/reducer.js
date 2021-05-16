@@ -18,7 +18,7 @@ let score = localStorage.getItem("score")
 export const initialState = {
   token: token,
   teamName: team,
-  chracter: character,
+  character: character,
   score: score,
   loading: false,
   errorMessage: null

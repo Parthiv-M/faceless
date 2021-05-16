@@ -1,4 +1,4 @@
-import { loginUser, logout, signUpUser, createTeam, joinTeam, getScorecard, getCharacterForTeam, getQuestionsForTeam, getTeamDetails } from './actions';
+import { loginUser, logout, signUpUser, createTeam, joinTeam, getScorecard, getCharacterForTeam, getQuestionsForTeam, getTeamDetails, getStoryline, submitAnswers } from './actions';
 import { AuthProvider, useAuthDispatch, useAuthState } from './context';
  
 export { 
@@ -13,5 +13,7 @@ export {
     getScorecard,
     getCharacterForTeam,
     getQuestionsForTeam,
-    getTeamDetails
+    getTeamDetails,
+    getStoryline,
+    submitAnswers
 };

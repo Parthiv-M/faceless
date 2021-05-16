@@ -48,7 +48,7 @@ const CreateTeam = () => {
                 </div>
                 <div className="d-flex flex-row justify-content-center w-full w-md-400">
                     <div>
-                        <input type="text" name="teamname" className="form-control bg-transparent w-350 mt-5" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { setTeamName(e.target.value) }}/>
+                        <input type="text" name="teamname" autoComplete='off' className="form-control bg-transparent w-350 mt-5" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { setTeamName(e.target.value) }}/>
                     </div>
                     <ChevronRight onClick={handleCreateTeam} className='animate-right' color="#FEDF00" style={{ height:'4rem', width:'4rem', cursor: 'pointer' }}/>
                 </div> 

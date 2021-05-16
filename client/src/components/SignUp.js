@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { signUpUser, useAuthState, useAuthDispatch } from './../context';
+import { signUpUser, useAuthDispatch } from './../context';
 import {Button} from 'reacthalfmoon';
 
 const SignUp = () => {
@@ -14,64 +14,133 @@ const SignUp = () => {
 
     const history = useHistory();
     const dispatch = useAuthDispatch();
-    const user = useAuthState();
+
+    const [finalPass, setFinalPass] = useState('');
+
+    // check for confirm password
+    const handleConfirmPassword = () => {
+      if(data.password === finalPass) {
+        document.getElementById('password-error').classList.remove('d-block');
+        document.getElementById('password-error').classList.add('d-none');
+        return true;
+      } else {
+        document.getElementById('password-error').classList.remove('d-none');
+        document.getElementById('password-error').classList.add('d-block');
+        return false;
+      }
+    }
+
+    // method to handle password length
+    const handlePasswordLength = () => {
+      if(data.password.length < 6) { 
+        document.getElementById('blank-password-error').classList.remove('d-block');
+        document.getElementById('blank-password-error').classList.add('d-none');
+        document.getElementById('password-length-error').classList.remove('d-none');
+        document.getElementById('password-length-error').classList.add('d-block');
+        return false;
+      } else {
+        document.getElementById('password-length-error').classList.remove('d-block');
+        document.getElementById('password-length-error').classList.add('d-none');
+        return true;
+      }
+    }
+
+    // handle blank field errors
+    const handleBlankFields = () => {
+      if(data.userName === ''){
+        document.getElementById('blank-username-error').classList.remove('d-none');
+        document.getElementById('blank-username-error').classList.add('d-block');
+        return false;
+      }
+      if(data.email === ''){
+        document.getElementById('blank-email-error').classList.remove('d-none');
+        document.getElementById('blank-email-error').classList.add('d-block');
+        return false;
+      }
+      if(data.password === ''){
+        document.getElementById('blank-password-error').classList.remove('d-none');
+        document.getElementById('blank-password-error').classList.add('d-block');
+        return false;
+      }
+      if(data.userName !== '' && data.email !== '' && data.password !== '')
+        return true;
+    }
 
     // method to handle sign up
     const handleSignUp = async (e) => {
-        e.preventDefault();      
-        let payload = {
-          userName: data.userName,
-          email: data.email,
-          password: data.password 
-        }
-        setData(payload);
-        try {
-          let response = await signUpUser(dispatch, payload);
-          history.push('/createTeam');
-        } catch (error) {
-          console.log(error);
+        if(handleBlankFields() && handlePasswordLength() && handleConfirmPassword()){
+          e.preventDefault();      
+          let payload = {
+            userName: data.userName,
+            email: data.email,
+            password: data.password 
+          }
+          setData(payload);
+          try {
+            let response = await signUpUser(dispatch, payload);
+            history.push('/createTeam');
+          } catch (error) {
+            console.log(error);
+          }
         } 
       }
     
     // method to handle sign up and join team
     const handleSignUpAndJoin = async (e) => {
-        e.preventDefault();      
-        let payload = {
-          userName: data.userName,
-          email: data.email,
-          password: data.password 
+      if(handleBlankFields() && handlePasswordLength() && handleConfirmPassword()){
+          e.preventDefault();      
+          let payload = {
+            userName: data.userName,
+            email: data.email,
+            password: data.password 
+          }
+          setData(payload);
+          try {
+            let response = await signUpUser(dispatch, payload)
+            history.push('/joinTeam');
+          } catch (error) {
+            console.log(error);
+          } 
         }
-        setData(payload);
-        try {
-          let response = await signUpUser(dispatch, payload)
-          history.push('/joinTeam');
-        } catch (error) {
-          console.log(error);
-        } 
       }
 
     return (
         <div className='container fixed-background m-auto'>
             <div className="d-flex justify-content-center align-items-center h-full w-full flex-column float-left p-20">
                 <div className="w-400 mw-full py-20">
-                    <div className="float-md-left font-size-24 font-weight-bolder" style = {{color:'#FEDF00'}}>SIGN UP</div>
+                    <div className="float-md-left font-size-24 font-weight-bolder" style = {{ color:'#FEDF00' }}>SIGN UP</div>
                 </div>
                 <form className="w-md-400 w-350 mw-full">
                     <div className="form-group">
-                        <label for="username" className="float-left text-white">UserName</label>
-                        <input type="text" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.userName = e.target.value; }}/>
+                        <label for="username" className="float-left text-white">Username</label>
+                        <input type="text" className="form-control bg-transparent required" autoComplete="off" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.userName = e.target.value; }}/>
+                        <div class="invalid-feedback text-left d-none" id="blank-username-error" style={{ color:'#FEDF00' }}>
+                          Username cannot be blank
+                        </div>
                     </div>
                     <div className="form-group">
                         <label for="username" className="float-left text-white">Email ID</label>
-                        <input type="text" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.email = e.target.value; }}/>
+                        <input type="text" className="form-control bg-transparent required" autoComplete="off" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.email = e.target.value; }}/>
+                        <div class="invalid-feedback text-left d-none" id="blank-email-error" style={{ color:'#FEDF00' }}>
+                          Email cannot be blank
+                        </div>
                     </div>
                     <div className="form-group">
                         <label for="password" className="float-left text-white">Password</label>
-                        <input type="password" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.password = e.target.value; }}/>
+                        <input type="password" className="form-control bg-transparent required" autoComplete="off" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.password = e.target.value; }}/>
+                        <div class="invalid-feedback text-left d-none" id="password-length-error" style={{ color:'#FEDF00' }}>
+                          Password should have at least 6 characters
+                        </div>
+                        <div class="invalid-feedback text-left d-none" id="blank-password-error" style={{ color:'#FEDF00' }}>
+                          Password cannot be blank
+                        </div>
                     </div>
                     <div className="form-group">
                         <label for="password" className="float-left text-white">Confirm Password</label>
-                        <input type="password" className="form-control bg-transparent required" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}}/>
+                        <input type="password" className="form-control bg-transparent required" autoComplete="off" style={{ borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00' }} onChange={(e) => { setFinalPass(e.target.value); }}/>
+                        <div class="invalid-feedback text-left d-none" id="password-error" style={{ color:'#FEDF00' }}>
+                          Does not match with the password above
+                        </div>
                     </div>
                     <div className="mt-md-20 mb-md-10 d-flex flex-md-row flex-column justify-content-center align-items-center text-center font-weight-bolder font-size-24 text-light pt-20 pb-20">
                         <Button onClick={handleSignUp} className="btn btn-lg mr-md-10 m-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }}>Create Team</Button>

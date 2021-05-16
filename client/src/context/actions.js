@@ -162,7 +162,7 @@ export async function getScorecard(dispatch) {
 }
 
 // action to fetch the current character of the team from the database
-export async function getCharacterForTeam(dispatch) {
+export async function getCharacterForTeam(dispatch, payload) {
   try {
     let resp = {};
     await axios({
@@ -178,6 +178,7 @@ export async function getCharacterForTeam(dispatch) {
     .then((response) => {
       if (response.status === 200) {
           resp = response.data;
+          localStorage.setItem('character', response.data.character);
           dispatch({ type: 'LEVEL_SUCCESS', payload: response.data.character });
       }
     })
@@ -235,6 +236,69 @@ export async function getTeamDetails(dispatch) {
     .then((response) => {
       if (response.status === 200) {
           resp = response.data;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });        
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// action to fetch storyline of a character from the database
+export async function getStoryline(payload) {
+  try {
+    let resp = {};
+    await axios({
+      method: 'GET',
+      url: `/api/game/getStoryline/${payload.character}`,
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*", 
+          'x-auth-token': localStorage.getItem('token')
+      },
+    })
+    .then((response) => {
+      if (response.status === 200) {
+          resp = response.data;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });        
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// action to submit answers
+export async function submitAnswers(payload) {
+  try {
+    let resp = {};
+    let body = {
+      answer: payload.answers
+    }
+    console.log('making request')
+    await axios({
+      method: 'POST',
+      url: `/api/game/submitAnswer/${payload.character}`,
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*", 
+          'x-auth-token': localStorage.getItem('token')
+      },
+      data: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (response.status === 200) {
+          resp = response.data;
+          if(resp.code === 1)
+            localStorage.setItem('character', resp.character);
       }
     })
     .catch((error) => {

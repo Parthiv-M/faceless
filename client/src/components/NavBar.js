@@ -31,11 +31,11 @@ const Navbar = () => {
                     <a href="/scoreboard" className="navbar-link font-size-16 px-10 d-none d-md-block">
                         SCOREBOARD
                     </a>
-                    <a href="/game" className="navbar-link font-size-16 px-10 d-none d-md-block">
-                        PLAY
-                    </a>
                     <a href="/teamboard" className="navbar-link font-size-16 px-10 d-none d-md-block">
                         TEAMBOARD
+                    </a>
+                    <a href="/game" className="navbar-link font-size-16 px-10 d-none d-md-block">
+                        PLAY
                     </a>
                 </div>
                 <div className="navbar-content d-flex">
