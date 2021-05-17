@@ -1,12 +1,16 @@
 import React from 'react';
 import logo from './../assets/faceless.png';
 import './../App.css';
+import ParticlesYellow from './Particles';
 import mistLogo  from './../assets/MISTlogoLight.png';
 import incognitoLight from './../assets/incognitoLogoLight.png';
 
 const LandingPage = () => {
     return (
         <div>
+            <div className='position-fixed' id="particles" style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
+                <ParticlesYellow />
+            </div>
             <div className='d-flex flex-column align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>
                 <div className='text-center'>
                     <img src={logo} className='h-md-250 h-200' alt="Faceless Logo"/>
@@ -19,8 +23,8 @@ const LandingPage = () => {
                     <a href="/signIn" className="btn btn-lg mx-5 my-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }} role="button">SIGN IN</a>
                 </div>
                 <div className='d-flex flex-column flex-md-row h-150 w-full justify-content-between align-items-center position-fixed logo-bar' style={{ bottom: 0 }}>
-                    <img src={incognitoLight} className='h-50'/>
-                    <img src={mistLogo} className='h-50 d-none d-md-block'/>
+                    <img src={mistLogo} alt='MIST Logo' className='h-50 d-none d-md-block'/>
+                    <img src={incognitoLight} alt='Incognito logo' className='h-50'/>
                 </div>
             </div>
         </div>
