@@ -16,6 +16,15 @@ const User = new Schema({
       type: String,
       required: true
     },
+    registrationNum: {
+      type: String,
+      required: true,
+      unique: true
+    },  
+    college: {
+      type: String,
+      required: true
+    },
     teamCode: {
         type: String,
     },

@@ -70,11 +70,14 @@ input {
     padding: 100px;
 }
 
+/* dashboard content */
+
 .content {
-    padding-left: 100px;
-    padding-right: 200px;
+    padding: 150px;
     text-align: justify;
 }
+
+/* fixed common background */
 
 .fixed-background {
   text-align: center;
@@ -139,12 +142,47 @@ input {
     transition-duration: 800ms;
 }
 
+/* wrong answer custom toast */
+
+#answer-toast {
+    /* background-color: var(--primary-colour); */
+    background-color: #f7f7f7;
+    color: var(--contrast-colour);
+    border-radius: 10px;
+    animation: fadeIn 1000ms;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0%;
+        transform: translateY(15px);
+    } to {
+        opacity: 100%;
+        transform: translateY(0px);
+    }
+}
+
+/* floating button design */
+
+@keyframes pulse {
+    from {
+        transform: scale(0.95);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.discord-floater {
+    background-color: var(--primary-colour);
+    animation: pulse 1000ms cubic-bezier(0.19, 1, 0.22, 1) infinite;
+}
+
 /* reposnive design */
 
 @media only screen and (max-width: 800px){
     .content {
-        padding: 0;
-        padding-right: 40px;
+        padding: 0px;
     }
     .teamboard-card {
         border-radius: 0;

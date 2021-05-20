@@ -23,6 +23,8 @@ export async function signUpUser(dispatch, signUpPayload) {
         }
       })
       .catch((error) => {
+        let errObj = {...error};
+        resp = errObj.response;
         dispatch({ type: 'SIGNUP_ERROR', error: error });
       });
       return resp;
@@ -67,6 +69,8 @@ export async function loginUser(dispatch, loginPayload) {
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('token');
+  localStorage.removeItem('teamName');
+  localStorage.removeItem('character');
 }
 
 // action to create a team
@@ -295,14 +299,20 @@ export async function submitAnswers(payload) {
       data: JSON.stringify(body),
     })
     .then((response) => {
+      console.log(response)
       if (response.status === 200) {
           resp = response.data;
           if(resp.code === 1)
             localStorage.setItem('character', resp.character);
+      } else if (response.statusCode === 400) {
+          console.log('ke')
       }
     })
     .catch((error) => {
-      console.log(error);
+      let errObj = {...error};
+      if(errObj.response.status === 400) {
+        resp = errObj.response;
+      }
     });        
     return resp;
   } catch (error) {

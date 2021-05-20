@@ -21,7 +21,8 @@ export const initialState = {
   character: character,
   score: score,
   loading: false,
-  errorMessage: null
+  errorMessage: null,
+  hintTaken: false
 };
  
 export const AuthReducer = (initialState, action) => {
@@ -119,6 +120,16 @@ export const AuthReducer = (initialState, action) => {
           ...initialState,
           loading: true,
         };
+    case "HINT_TAKEN":
+      return {
+        ...initialState,
+        hintTaken: true
+      };
+    case "RESET_HINT":
+      return {
+        ...initialState,
+        hintTaken: false
+      };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

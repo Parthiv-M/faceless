@@ -24,14 +24,16 @@ router.post('/signUp',
         var user = new User({
             userName: req.body.userName,
             email: req.body.email,
-            password: req.body.password
+            registrationNum: req.body.regNum,
+            password: req.body.password,
+            college: req.body.college
         });
         // saves the user to database
         user.save().then(() => {
             const payload = {
                 user: {
                   userId: user._id,
-                  userName: user.userName,
+                  userName: user.userName
                 }
             };
             token = user.generateAuthToken(payload);
@@ -39,10 +41,10 @@ router.post('/signUp',
             res.status(200).send({ message: "Sign up successful" });
         }
         ).catch((err) => {
-            console.log(err)
-            res.status(403).send({ error: 'Oops, error creating user' });
+            res.status(403).send({ error: 'Oops, error creating user', path: err.keyPattern });
         });
     } catch (error) {
+        console.log(error);
         res.status(500).send({ error: 'Server error' });
     }
 });

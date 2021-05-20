@@ -80,7 +80,6 @@ router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, 
                 });
                 req.correctAnswers = answerArr;
                 next();
-                // res.status(200).send({ message: 'Bingo!', pointsGained: ques.points });
             } else {
                 res.status(400).send({ error: 'Dang! Wrong answer' });
             }
