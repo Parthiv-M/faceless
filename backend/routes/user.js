@@ -102,6 +102,8 @@ router.post('/joinTeam', authenticate, async(req, res) => {
                 }
             );
             res.status(200).send({ message: 'Team joined successfully', teamName: team.teamName });
+        }).catch((err) => {
+            return res.status(401).send({ error: 'No such team exists' });
         });
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
