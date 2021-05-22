@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('./../models/User');
 const Team = require('./../models/Team');
+const bcrypt = require('bcryptjs');
 const authenticate = require('./../middleware/authenticate');
 const { check, validationResult } = require('express-validator');
 
@@ -152,6 +153,7 @@ router.post('/signIn',
         res.setHeader('x-auth-token', token);
         res.status(200).send({ message: "Login successful" });
     } catch (error) {
+        console.log(error);
         res.status(500).send({ message: 'Server error' });
     }
 });

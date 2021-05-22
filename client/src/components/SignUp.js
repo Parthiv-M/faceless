@@ -1,7 +1,8 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { signUpUser, useAuthDispatch } from './../context';
-import {Button} from 'reacthalfmoon';
+import { signUpUser, useFacelessDispatch, useFacelessState } from './../context';
+import { Button } from 'reacthalfmoon';
+import Loading from './Loader';
 
 const SignUp = () => {
 
@@ -13,12 +14,14 @@ const SignUp = () => {
         regNum: '',
         college: ''
     });   
+
     const [errorEmail, setErroremail] = useState('');
-
-    const history = useHistory();
-    const dispatch = useAuthDispatch();
-
     const [finalPass, setFinalPass] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    const user = useFacelessState();
+    const history = useHistory();
+    const dispatch = useFacelessDispatch();
 
     // check for confirm password
     const handleConfirmPassword = () => {
@@ -106,7 +109,7 @@ const SignUp = () => {
               document.getElementById('invalid-email-error').classList.add('d-block');
             } 
           } catch (error) {
-            console.log(error);
+            history.push('/notFound');
           }
         } 
       }
@@ -119,23 +122,38 @@ const SignUp = () => {
             userName: data.userName,
             email: data.email,
             password: data.password,
-            regNum: data.regNum
+            regNum: data.regNum,
+            college: data.college 
           }
           setData(payload);
           try {
             let response = await signUpUser(dispatch, payload)
             history.push('/joinTeam');
           } catch (error) {
+            history.push('/notFound');
             console.log(error);
           } 
         }
       }
+    
+    useEffect(() => {
+        if(user.token){
+            history.push('/dashboard');
+        } else {
+            setLoading(false);
+        }
+    }, []);
 
     return (
-        <div className='container fixed-background m-auto'>
-            <div className="d-flex justify-content-center align-items-center h-full w-full flex-column float-left p-20">
+        loading 
+        ? 
+        <Loading />
+        :
+        <div>
+          <div className='fixed-background position-fixed'></div>
+            <div className="d-flex justify-content-center align-items-center h-full w-full flex-column p-20">
                 <div className="w-400 mw-full py-20">
-                    <div className="float-md-left font-size-24 font-weight-bolder" style = {{ color:'#FEDF00' }}>SIGN UP</div>
+                    <div className="float-md-left text-center font-size-24 font-weight-bolder" style = {{ color:'#FEDF00' }}>SIGN UP</div>
                 </div>
                 <form className="w-md-400 w-350 mw-full">
                     <div className="form-group">

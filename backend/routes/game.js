@@ -49,36 +49,8 @@ router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, 
 
             // check if the user's answer is a subset of the correct answers 
             if(isSubsetOf(answerArr, correctAns)){
-                
-                ques.map((question) => {
-                    if(answerArr.includes(question.answer)){
-                        points.push(question.points);
-                    }
-                });
-
-                // computes total score of submitted answers
-                let sum = points.reduce(function(a, b){
-                    return a + b
-                }, 0);
-
-                await User.findOneAndUpdate(
-                    { _id: req.user.userId },
-                    {
-                        $inc: {
-                            score: sum 
-                        }
-                    }
-                ).then(async (user) => {
-                    await Team.findOneAndUpdate(
-                        { teamCode: user.teamCode },
-                        {
-                            $inc: {
-                                score: sum
-                            }
-                        }
-                    )
-                });
                 req.correctAnswers = answerArr;
+                req.ques = ques;
                 next();
             } else {
                 res.status(400).send({ error: 'Dang! Wrong answer' });

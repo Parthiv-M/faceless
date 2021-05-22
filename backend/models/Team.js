@@ -29,15 +29,15 @@ const Team = new Schema({
     },
     character: {
         type: String,
-        default: 'Tanvi'
+        default: 'Okami'
     },
     flagged: [{
-        quesId: {
+        character: {
             type: String
         },
-        numberOfTries: {
-            type: Number,
-            default: 0
+        hintTaken: {
+            type: Boolean,
+            default: false
         }
     }]
 });

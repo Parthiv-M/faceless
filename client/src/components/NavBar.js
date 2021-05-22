@@ -1,16 +1,30 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import logo from './../assets/incognitoLogo.png';
-import { useAuthState } from './../context';
+import { useFacelessState } from './../context';
 import { Button } from 'reacthalfmoon';
-import { logout, useAuthDispatch } from './../context';
+import { logout, useFacelessDispatch, getTeamDetails } from './../context';
 import { useHistory } from 'react-router-dom';
 import { X, Menu } from 'react-feather';
 
 const Navbar = () => {
 
-    const dispatch = useAuthDispatch();
-    const user = useAuthState();
+    const dispatch = useFacelessDispatch();
     const history = useHistory();
+
+    const [team, setTeam] = useState({});
+
+    const getTeam = async() => {
+        try {
+            let response = await getTeamDetails(dispatch);
+            setTeam(response.teamData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getTeam();
+    }, []);
 
     // method to handle logout
     const handleLogout = async () => {
@@ -18,7 +32,7 @@ const Navbar = () => {
             await logout(dispatch);
             history.push('/home');
         } catch (error) {
-            console.log(error);
+            history.push('/notFound');
         }
     }
 
@@ -34,7 +48,7 @@ const Navbar = () => {
      }
 
     return (
-            <nav className="navbar with-sidebar border-0 justify-content-between h-auto pt-3 pl-20 pb-3 font-weight-bold" style = {{ backgroundColor:'#FEDF00' }}> 
+            <nav className="navbar with-sidebar w-full border-0 justify-content-between h-auto font-weight-bold" style = {{ backgroundColor:'#FEDF00' }}> 
                 <div className="navbar-content d-flex flex-row">
                     <a href="/dashboard" className="navbar-brand py-5 d-block">
                         <img src={logo} alt="Incognito Logo" style = {{ width:'150px', height:'50px' }}/>
@@ -51,7 +65,7 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-content d-flex">
                     <div className="navbar-brand px-10 d-none d-md-block bg-transparent font-weight-bold">
-                        {user.teamName}
+                        {team.teamName}
                     </div>
                     <Button className="text-dark bg-transparent shadow-none d-none d-md-block" style={{ borderRadius: 30, border: '2px solid black' }} onClick={handleLogout}>
                         LOGOUT
@@ -60,11 +74,15 @@ const Navbar = () => {
                         <Menu onClick={toggleSideBar}/>
                     </div>
                 </div>
-                <div className="sidebar d-none z-10" id="sidebar" style={{ backgroundColor:'rgba(32,32,32,0.95)', width:'100vw', height:'100vh'}}>
+                <div className="sidebar d-none w-full z-10" id="sidebar" style={{ backgroundColor:'rgba(32,32,32,0.95)', height:'100vh'}}>
                   <div className="sidebar-menu d-flex flex-column align-items-center">
                       <div style={{position: 'fixed', top:'5rem', right: '4rem'}}><X color= 'white' onClick={toggleSideBar} size={40}/></div>
-                    <h1 className="sidebar-title text-center mb-20 pb-20 font-weight-bolder" style={{ color:'#FEDF00', fontSize: '3rem', marginTop:'10rem' }}>{user.teamName}</h1>
+                    <h1 className="sidebar-title text-center mb-20 pb-20 font-weight-bolder" style={{ color:'#FEDF00', fontSize: '3rem', marginTop:'10rem' }}>{team.teamName}</h1>
                     <div className="sidebar-divider"></div>
+                    <a href="/dashboard" className="sidebar-link sidebar-link-with-icon font-size-24 font-weight-bolder text-white mx-20 my-15">
+                      DASHBOARD
+                    </a>
+                    <hr style={{background:'#FEDF00', height:'0.15rem', width:'250px'}}/>
                     <a href="/game" className="sidebar-link sidebar-link-with-icon font-size-24 font-weight-bolder text-white mx-20 my-15">
                       PLAY
                     </a>

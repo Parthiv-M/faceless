@@ -86,9 +86,11 @@ input {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  background-size: 400px;
+  background-size: 30rem;
+  /* background-color: tomato; */
   height: 100vh;        
   width: 100vw;
+  z-index: -99;
 }
 
 /* button animation */
@@ -182,7 +184,7 @@ input {
 
 @media only screen and (max-width: 800px){
     .content {
-        padding: 0px;
+        padding: 18px;
     }
     .teamboard-card {
         border-radius: 0;

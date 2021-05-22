@@ -1,10 +1,10 @@
 import { loginUser, logout, signUpUser, createTeam, joinTeam, getScorecard, getCharacterForTeam, getQuestionsForTeam, getTeamDetails, getStoryline, submitAnswers } from './actions';
-import { AuthProvider, useAuthDispatch, useAuthState } from './context';
+import { FacelessProvider, useFacelessDispatch, useFacelessState } from './context';
  
 export { 
-    AuthProvider, 
-    useAuthState, 
-    useAuthDispatch, 
+    FacelessProvider, 
+    useFacelessState, 
+    useFacelessDispatch, 
     loginUser as signInUser, 
     logout, 
     signUpUser, 

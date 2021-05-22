@@ -2,21 +2,25 @@
 import { React, useEffect, useState } from 'react';
 import { getTeamDetails } from './../context';
 import Loading from './Loader';
+import { useHistory } from 'react-router-dom';
 import Navbar from './NavBar';
 import { User } from 'react-feather';
+import { useFacelessDispatch } from './../context';
 
 const TeamProfile = () => {
 
     const [team, setTeam] = useState({});
+    const history = useHistory();
     const [loading, setLoading] = useState(true);
-
+    const dispatch = useFacelessDispatch();
+    
     const getTeam = async() => {
         try {
-            let response = await getTeamDetails();
+            let response = await getTeamDetails(dispatch);
             setTeam(response.teamData);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            history.push('/notFound');          
         }
     }
 
@@ -24,13 +28,26 @@ const TeamProfile = () => {
         getTeam();
     })
 
-    const final = team.answerLog ? team.answerLog.slice(team.answerLog.length-5, team.answerLog.length).reverse().map((answer) => {
+    const final = team.answerLog ? (
+        team.answerLog.length < 5 ?
+        team.answerLog.reverse().map((answer) => {
+        return (
+            <div className="p-10 m-10 text-white" style={{ textOverflow: 'ellipsis', backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
+                <p>
+                    {answer}
+                </p>
+            </div>
+        )
+        } 
+    ) :
+    team.answerLog.slice(team.answerLog.length-5, team.answerLog.length).reverse().map((answer) => {
         return (
             <div className="p-10 m-10 font-size-20 text-white" style={{ backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
                 {answer}
             </div>
         )
         } 
+    ) 
     ) : <> </>;
 
     return (
@@ -38,13 +55,13 @@ const TeamProfile = () => {
         ? 
         <Loading />
         :
-        <div className='position-md-fixed h-full w-full'>
+        <div className='h-full w-full'>
         <Navbar />
-        <div className='container fixed-background m-auto'>
+        <div>
             <div className="d-flex flex-column float-left justify-content-center align-items-center w-full">
                 <div className="font-size-24 font-weight-bolder mt-20" style = {{ color:'#FEDF00' }}>{team.teamName}</div>
                 <hr className='bg-white w-100' style={{ height:'0.3rem', marginBottom:'2rem'}}/>
-                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between align-items-center w-full">
+                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between align-items-center" style={{ width: '75%' }}>
                         <div className="d-flex flex-column justify-content-center align-items-center w-full w-md-500 h-150 h-md-150 mx-md-10 my-10 teamboard-card" style={{ backgroundColor:'rgba(72,72,72,0.4)' }}>
                             <div className="font-weight-bolder text-white">
                                 {team.teamCode}
@@ -83,14 +100,14 @@ const TeamProfile = () => {
                     </div>
                 </div>
                 {
-                    Boolean(team.answerLog.length !== 0) 
+                    Boolean(team.answerLog.length !== 0)
                     ? 
                     <>
                     <div className="font-size-24 font-weight-bolder mt-20" style = {{ color:'#FEDF00' }}>
                         Answer Log
                     </div>
                     <hr className='bg-white w-50' style={{ height:'0.2rem', marginBottom:'2rem'}}/>
-                    <div className="pb-20 w-350 w-md-450">
+                    <div className="pb-20 w-350 text-center w-md-450">
                         {final}
                     </div>
                     </>
@@ -98,6 +115,7 @@ const TeamProfile = () => {
                     <div></div> 
                 }
             </div>
+            <div className='fixed-background position-fixed'></div>
         </div>
         </div>
     )

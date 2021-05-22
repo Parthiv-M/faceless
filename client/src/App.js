@@ -4,13 +4,13 @@ import {
   Switch,
 } from 'react-router-dom';
 import routes from './config/routes';
-import { AuthProvider } from './context';
+import { FacelessProvider } from './context';
 import AppRoute from './components/AppRoutes';
 
 function App() {
   return (
     <div className="App">
-      <AuthProvider>
+      <FacelessProvider>
         <Router>
           <Switch>
             {
@@ -25,7 +25,7 @@ function App() {
             }
           </Switch>
         </Router>
-      </AuthProvider>
+      </FacelessProvider>
     </div>
   );
 }

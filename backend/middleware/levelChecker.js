@@ -1,50 +1,46 @@
 const Team = require('./../models/Team');
+const User = require('./../models/User');
 
 module.exports = async function (req, res, next) {
 
     const levels = [
         {
-            name: 'Tanvi',
+            name: 'Okami',
             level: 1
         },
         {
-            name: 'Ajay',
+            name: 'Kendo',
             level: 2
         },
         {
-            name: 'Amitabh',
+            name: 'Hyotto',
             level: 3
         },
         {
-            name: 'A',
+            name: 'Kappa',
             level: 4
         },
         {
-            name: 'B',
+            name: 'Tengu',
             level: 5
         },
         {
-            name: 'C',
+            name: 'Oni',
             level: 6
         },
         {
-            name: 'D',
+            name: 'Hanya',
             level: 7
         },
         {
-            name: 'E',
+            name: 'Kitsune',
             level: 8
         },
         {
-            name: 'F',
+            name: 'Samuri',
             level: 9
         },
-        {
-            name: 'G',
-            level: 10
-        }
     ];
-
     try {
         let team = await Team.findOne(
             { 
@@ -71,7 +67,68 @@ module.exports = async function (req, res, next) {
                     character: nextLevelChar
                 } 
             }
-        ).then(() => {
+        ).then(async (team) => {
+            let check = team.flagged.some(flag => flag.character === req.params.character);
+            
+            let points = [];
+                        
+            req.ques.map((question) => {
+                if(req.correctAnswers.includes(question.answer)){
+                    points.push(question.points);
+                }
+            });
+
+            // computes total score of submitted answers
+            var sum = points.reduce(function(a, b){
+                return a + b
+            }, 0);
+                        
+            await User.findOneAndUpdate(
+                { _id: req.user.userId },
+                {
+                    $inc: {
+                        score: sum  
+                    }
+                }
+            );
+
+            let flaggedObj = {
+                character: req.params.character,
+                hintTaken: true
+            };
+
+            if(check) {
+                // deduct the score of the hints used
+                sum = sum - (3*(sum/points.length));
+                await Team.findOneAndUpdate(
+                    { 
+                        teamMembers: {
+                            $elemMatch: req.user
+                        }
+                    },
+                    {   
+                        $inc: {
+                            score: sum 
+                        }
+                    }
+                );
+            } else {
+                await Team.findOneAndUpdate(
+                    { 
+                        teamMembers: {
+                            $elemMatch: req.user
+                        }
+                    },
+                    {
+                        $push: {
+                            flagged: flaggedObj
+                        },
+                        $inc: {
+                            score: sum
+                        }
+                    }
+                );
+            }
             res.status(200).send({ code: 1, message: 'Cleared character, move on to next', character: nextLevelChar });
         })
     } catch (error) {

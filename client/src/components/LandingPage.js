@@ -1,17 +1,37 @@
-import React from 'react';
+import { React, useState, useEffect  } from 'react';
 import logo from './../assets/faceless.png';
 import './../App.css';
 import ParticlesYellow from './Particles';
 import mistLogo  from './../assets/MISTlogoLight.png';
 import incognitoLight from './../assets/incognitoLogoLight.png';
+import { useHistory } from 'react-router-dom';
+import { useFacelessState } from './../context';
+import Loading from './Loader';
 
 const LandingPage = () => {
+
+    const [loading, setLoading] = useState(true);
+    const user = useFacelessState();
+    const history = useHistory();
+
+    useEffect(() => {
+        if(user.token){
+            history.push('/dashboard');
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
     return (
+        loading 
+        ? 
+        <Loading />
+        :
         <div>
-            <div className='position-fixed' id="particles" style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
-                <ParticlesYellow />
+            <div className='position-fixed' style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
+                <ParticlesYellow value={80} dotColor='#FEDF00' lineColor='#FFFFFF'/>
             </div>
-            <div className='d-flex flex-column align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>
+            <div className='d-flex flex-column position-fixed align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>
                 <div className='text-center'>
                     <img src={logo} className='h-md-250 h-200' alt="Faceless Logo"/>
                 </div>

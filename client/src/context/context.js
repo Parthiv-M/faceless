@@ -1,35 +1,35 @@
 import React, { useReducer } from "react";
 import { AuthReducer, initialState } from './reducer'; 
 
-const AuthStateContext = React.createContext();
-const AuthDispatchContext = React.createContext();
+const FacelessStateContext = React.createContext();
+const FacelessDispatchContext = React.createContext();
 
-export function useAuthState() {
-  const context = React.useContext(AuthStateContext);
+export function useFacelessState() {
+  const context = React.useContext(FacelessStateContext);
   if (context === undefined) {
-    throw new Error("useAuthState must be used within a AuthProvider");
+    throw new Error("useFacelessState must be used within a FacelessProvider");
   }
  
   return context;
 }
  
-export function useAuthDispatch() {
-  const context = React.useContext(AuthDispatchContext);
+export function useFacelessDispatch() {
+  const context = React.useContext(FacelessDispatchContext);
   if (context === undefined) {
-    throw new Error("useAuthDispatch must be used within a AuthProvider");
+    throw new Error("useFacelessDispatch must be used within a FacelessProvider");
   }
  
   return context;
 }
 
-export const AuthProvider = ({ children }) => {
+export const FacelessProvider = ({ children }) => {
   const [user, dispatch] = useReducer(AuthReducer, initialState);
  
   return (
-    <AuthStateContext.Provider value={user}>
-      <AuthDispatchContext.Provider value={dispatch}>
+    <FacelessStateContext.Provider value={user}>
+      <FacelessDispatchContext.Provider value={dispatch}>
         {children}
-      </AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
+      </FacelessDispatchContext.Provider>
+    </FacelessStateContext.Provider>
   );
 };

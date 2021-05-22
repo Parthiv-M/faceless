@@ -44,81 +44,33 @@ export const AuthReducer = (initialState, action) => {
         token: action.payload,
         loading: false
       };
-    case "CREATE_TEAM":
+    case "AUTH_ERROR":
       return {
         ...initialState,
-        loading: false
-      };
-    case "JOIN_TEAM":
-      return {
-        ...initialState,
-        loading: false
+        loading: false,
+        errorMessage: action.error
       };
     case "LOGOUT":
       return {
-        ...initialState,
-      };
-    case "LOGIN_ERROR":
-      return {
-        ...initialState,
+        token: '',
+        teamName: '',
+        character: '',
+        score: '',
         loading: false,
-        errorMessage: action.error
+        errorMessage: null,
+        hintTaken: false
       };
-    case "SIGNUP_ERROR":
-      return {
-        ...initialState,
-        loading: false,
-        errorMessage: action.error
-      };
-    case "CREATE_TEAM_ERROR":
-      return {
-        ...initialState,
-        loading: false,
-        errorMessage: action.error
-      };
-    case "CREATE_TEAM_SUCCESS":
+    case "SET_TEAM":
       return {
         ...initialState,
         teamName: action.payload,
         loading: false
       };
-    case "JOIN_TEAM_ERROR":
-        return {
-          ...initialState,
-          loading: false,
-          errorMessage: action.error
-        };
-    case "JOIN_TEAM_SUCCESS":
-        return {
-          ...initialState,
-          loading: false,
-        };
-    case "FETCH_LEVEL":
-        return {
-          ...initialState,
-          loading: true,
-        };
-    case "FETCH_SCORE":
-        return {
-          ...initialState,
-          loading: true,
-        };
-    case "LEVEL_SUCCESS":
+    case "SET_CHARACTER":
         return {
           ...initialState,
           character: action.payload,
           loading: false,
-        };
-    case "SCORE_SUCCESS":
-        return {
-          ...initialState,
-          score: action.payload.score,
-          loading: false,
-        };
-    case "FETCH_SCORECARD":
-        return {
-          ...initialState,
-          loading: true,
         };
     case "HINT_TAKEN":
       return {

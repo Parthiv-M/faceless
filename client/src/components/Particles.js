@@ -1,25 +1,25 @@
 import Particles from 'react-particles-js';
  
-const ParticlesYellow = () => {
+const ParticlesYellow = (props) => {
     return (
         <Particles 
             params={{
                 "particles": {
                     "number": {
-                      "value": 80,
+                      "value": props.value,
                       "density": {
                         "enable": true,
                         "value_area": 900
                       }
                     },
                     "color": {
-                      "value": "#FEDF00"
+                      "value": props.dotColour
                     },
                     "shape": {
                       "type": "circle",
                       "stroke": {
                         "width": 0,
-                        "color": "#000000"
+                        "color": props.dotColour
                       },
                       "polygon": {
                         "nb_sides": 5
@@ -48,7 +48,7 @@ const ParticlesYellow = () => {
                     "line_linked": {
                       "enable": true,
                       "distance": 150,
-                      "color": "#ffffff",
+                      "color": props.lineColor,
                       "opacity": 0.2966312312601217,
                       "width": 1.2827296486924182
                     },

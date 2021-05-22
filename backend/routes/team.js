@@ -7,9 +7,11 @@ const authenticate = require('./../middleware/authenticate');
 router.get('/getTeam', authenticate, async (req, res) => {
     try {
         let team = await Team.findOne(
-            { teamMembers: {
-                $elemMatch: req.user
-            } }
+            { 
+                teamMembers: {
+                    $elemMatch: req.user
+                } 
+            }
         );
     
         // check if the team exists

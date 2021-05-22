@@ -19,17 +19,18 @@ export async function signUpUser(dispatch, signUpPayload) {
         if (response.status === 200) {
             dispatch({ type: 'SIGNUP_SUCCESS', payload: response.headers['x-auth-token'] });
             localStorage.setItem('token', response.headers['x-auth-token']);
+            localStorage.setItem('character', 'Okami');
             resp = response;
         }
       })
       .catch((error) => {
         let errObj = {...error};
         resp = errObj.response;
-        dispatch({ type: 'SIGNUP_ERROR', error: error });
+        dispatch({ type: 'AUTH_ERROR', error: error });
       });
       return resp;
   } catch (error) {
-    dispatch({ type: 'SIGNUP_ERROR', error: error });
+    dispatch({ type: 'AUTH_ERROR', error: error });
   }
 }
 
@@ -50,27 +51,27 @@ export async function loginUser(dispatch, loginPayload) {
       })
       .then((response) => {
         if (response.status === 200) {
-            dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+            dispatch({ type: 'LOGIN_SUCCESS', payload: response.headers['x-auth-token'] });
             localStorage.setItem('token', response.headers['x-auth-token']);
             resp = response.data;
         }
       })
       .catch((error) => {
         console.log(error);
-        dispatch({ type: 'LOGIN_ERROR', error: error });
+        dispatch({ type: 'AUTH_ERROR', error: error });
       });
       return resp;
   } catch (error) {
-    dispatch({ type: 'LOGIN_ERROR', error: error });
+    dispatch({ type: 'AUTH_ERROR', error: error });
   }
 }
  
 // log a ser out by removing the token
 export async function logout(dispatch) {
-  dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('token');
   localStorage.removeItem('teamName');
   localStorage.removeItem('character');
+  dispatch({ type: 'LOGOUT' });
 }
 
 // action to create a team
@@ -90,18 +91,17 @@ export async function createTeam(dispatch, createTeamPayload) {
       })
       .then((response) => {
         if (response.status === 200) {
-            dispatch({ type: 'CREATE_TEAM_SUCCESS', payload: createTeamPayload.teamName });
+            dispatch({ type: 'SET_TEAM', payload: createTeamPayload.teamName });
             localStorage.setItem('teamName', createTeamPayload.teamName);
             resp = response.data;
         }
       })
       .catch((error) => {
         console.log(error);
-        dispatch({ type: 'CREATE_TEAM_ERROR', error: error });
       });
       return resp;
   } catch (error) {
-    dispatch({ type: 'CREATE_TEAM_ERROR', error: error });
+    console.log(error)
   }
 }
 
@@ -122,18 +122,17 @@ export async function joinTeam(dispatch, joinTeamPayload) {
       })
       .then((response) => {
         if (response.status === 200) {
-            dispatch({ type: 'JOIN_TEAM_SUCCESS', payload: response.data.teamName });
-            localStorage.setItem('teamName', response.data.teamName);
-            resp = response.data;
+          localStorage.setItem('teamName', response.data.teamName);
+          resp = response.data;
         }
       })
       .catch((error) => {
-        console.log(error);
-        dispatch({ type: 'JOIN_TEAM_ERROR', error: error });
+        let errObj = {...error};
+        resp = errObj.response;
       });        
       return resp;
   } catch (error) {
-    dispatch({ type: 'JOIN_TEAM_ERROR', error: error });
+    console.log(error);
   }
 }
 
@@ -183,7 +182,7 @@ export async function getCharacterForTeam(dispatch, payload) {
       if (response.status === 200) {
           resp = response.data;
           localStorage.setItem('character', response.data.character);
-          dispatch({ type: 'LEVEL_SUCCESS', payload: response.data.character });
+          dispatch({ type: 'SET_CHARACTER', payload: response.data.character });
       }
     })
     .catch((error) => {
@@ -240,6 +239,9 @@ export async function getTeamDetails(dispatch) {
     .then((response) => {
       if (response.status === 200) {
           resp = response.data;
+          dispatch({ type: 'SET_TEAM', payload: response.data.teamData.teamName });
+          localStorage.setItem('teamName', response.data.teamData.teamName);
+          localStorage.setItem('character', response.data.teamData.character);
       }
     })
     .catch((error) => {
@@ -286,7 +288,6 @@ export async function submitAnswers(payload) {
     let body = {
       answer: payload.answers
     }
-    console.log('making request')
     await axios({
       method: 'POST',
       url: `/api/game/submitAnswer/${payload.character}`,
@@ -306,7 +307,7 @@ export async function submitAnswers(payload) {
             localStorage.setItem('character', resp.character);
       } else if (response.statusCode === 400) {
           console.log('ke')
-      }
+      } 
     })
     .catch((error) => {
       let errObj = {...error};

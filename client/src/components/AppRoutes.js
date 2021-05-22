@@ -1,12 +1,12 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
  
-import { useAuthState } from './../context';
+import { useFacelessState } from './../context';
  
 // renders the components according to the routes
 const AppRoutes = ({ component: Component, path, isPrivate, ...rest }) => {
  
-    const userDetails = useAuthState();
+    const userDetails = useFacelessState();
     
     return (
         <Route
