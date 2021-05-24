@@ -42,25 +42,41 @@ router.post('/signUp',
             res.status(200).send({ message: "Sign up successful" });
         }
         ).catch((err) => {
-            res.status(403).send({ error: 'Oops, error creating user', path: err.keyPattern });
+            // res.status(403).send({ error: 'Oops, error creating user', path: err.keyPattern });
+            res.status(403).send({ error: 'Oops, error creating user', path: err });
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send({ error: 'Server error' });
     }
 });
 
 // route to create a team
-router.post('/createTeam', authenticate, (req, res) => {
+router.post('/createTeam', authenticate, async(req, res) => {
     
+    // check if the user is part of any team
+    let user = await User.findOne({ _id: req.user.userId });
+
+    if(!user) {
+        return res.status(401).send({ error: 'No user found' });
+    }
+
+    if(user.teamCode){
+        return res.status(401).send({ error: 'User is already part of the team' });
+    }
+
     // generating a random team code
     var teamCode = Math.floor(Math.random() * 100) + 100;
-    teamCode = teamCode + req.user.userName.split('')[0] + req.user.userName.split('')[1] + req.user.userName.split('')[2];
+    var userNameLength = req.user.userName.length;
+    teamCode = teamCode 
+                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)] 
+                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)] 
+                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)];
     var team = new Team({
         teamCode: teamCode,
         teamName: req.body.teamName,
         teamMembers: req.user
     });
+    
     try {
         // saves the team to database
         team.save().then(async() => {
@@ -84,27 +100,40 @@ router.post('/joinTeam', authenticate, async(req, res) => {
     const toJoinUserId = req.user.userId;
     const teamCode = req.body.teamCode;
     try {
-        await Team.findOneAndUpdate(
-            { teamCode: teamCode },
-            {   
-                $push: {
-                    teamMembers: {
-                        userId: toJoinUserId,
-                        userName: req.user.userName
+
+        let team = await Team.findOne({ teamCode: teamCode });
+        
+        if(team) {
+            
+            if(team.teamMembers.length === 2){
+                return res.status(401).send({ error: 'There are already two members in the team' });
+            }
+        
+            await Team.findOneAndUpdate(
+                { teamCode: teamCode },
+                {   
+                    $push: {
+                        teamMembers: {
+                            userId: toJoinUserId,
+                            userName: req.user.userName
+                        }
                     }
                 }
-            }
-        ).then(async(team) => {
-            await User.findOneAndUpdate(
-                { _id: toJoinUserId },
-                {
-                    teamCode: teamCode
-                }
-            );
-            res.status(200).send({ message: 'Team joined successfully', teamName: team.teamName });
-        }).catch((err) => {
+            ).then(() => {
+                User.findOneAndUpdate(
+                    { _id: toJoinUserId },
+                    {
+                        teamCode: teamCode
+                    }
+                );
+                res.status(200).send({ message: 'Team joined successfully', teamName: team.teamName });
+            }).catch((error) => {
+                throw error
+            });
+        } else {
             return res.status(401).send({ error: 'No such team exists' });
-        });
+        }
+    
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
     }

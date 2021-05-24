@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./../models/User');
 const Team = require('./../models/Team');
 const Question = require('./../models/Question');
 const Storyline = require('./../models/Storyline');
 const answerLogger = require('./../middleware/answerLog');
 const levelChecker = require('./../middleware/levelChecker');
 const hintGiver = require('./../middleware/hintGiver');
+const scorer = require('./../middleware/scorer');
 const authenticate = require('./../middleware/authenticate');
 const { isSubsetOf } = require('is-subset-of');
 
@@ -14,17 +14,57 @@ const { isSubsetOf } = require('is-subset-of');
 router.get('/getQuestion/:characterName', authenticate, async(req, res) => {
     let fiveRandom = [];
     try {
-        var ques = await Question.find({ character: req.params.characterName });
-        if(!ques) {
-            return res.status(400).send({ error: 'Character/questions not found' });
+
+        var team = await Team.findOne(
+            { 
+                teamMembers: {
+                    $elemMatch: req.user
+                } 
+            } 
+        );
+        
+        // check if team exists
+        if(!team){
+            return res.status(401).send({ error: 'Team not found' });
         }
-        for(let i = 0; i < 5; i++){
-            var randomItem = ques[Math.floor(Math.random() * ques.length)]; // get a random question
-            fiveRandom.push(randomItem);                                    // push it to a new array
-            ques = ques.filter(item => item != randomItem);                 // remove the selected question from further iterations
+
+        // check if that particular character's questions have been alloted to the team
+        let clearedCharacters = []; 
+        team.teamQuestions.filter(question => {
+            if(question.character === req.params.characterName)
+                clearedCharacters.push(question.character);
+        });
+        if(clearedCharacters.includes(req.params.characterName)){   // return existing questions
+            let teamQuestions = team.teamQuestions.filter(question => question.character === req.params.characterName);
+            res.status(200).send(teamQuestions);
+        } else {    // generate random questions and return them
+            var ques = await Question.find({ character: req.params.characterName });    
+            if(!ques) {
+                return res.status(400).send({ error: 'Character/questions not found' });
+            }
+            for(let i = 0; i < 5; i++){
+                var randomItem = ques[Math.floor(Math.random() * ques.length)]; // get a random question
+                fiveRandom.push(randomItem);                                    // push it to a new array
+                ques = ques.filter(item => item != randomItem);                 // remove the selected question from further iterations
+            }
+            Team.findOneAndUpdate(
+                { _id: team._id },
+                {
+                    $push: {
+                        teamQuestions: {
+                            character: req.params.characterName,
+                            questions: fiveRandom
+                        }
+                    }
+                }
+            ).then(() => {
+                res.status(200).send(fiveRandom);
+            }).catch((err) => {
+                res.status(400).send({ error: 'Could not create questions' });
+            });
         }
-        res.status(200).send(fiveRandom);
     } catch (error) {
+        console.log(error)
         res.status(500).send({ error: 'Server error' });
     }
 });
@@ -32,37 +72,37 @@ router.get('/getQuestion/:characterName', authenticate, async(req, res) => {
 // route to submit the answer to one particular question
 router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, res, next) => {
     try {
-        var ques = await Question.find(
-            { character: req.params.character } 
+        var team = await Team.findOne(
+            { 
+                teamMembers: {
+                    $elemMatch: req.user
+                } 
+            } 
         );
 
-        if(ques){
-            // create an array of the correct answers from database
-            let correctAns = [];
-            let points = [];
-            ques.map((question) => {
-                correctAns.push(question.answer)
+        let userAnswers = req.body.answer.split('_');
+        let databaseAnswers = [];
+        if(userAnswers.length === 3 || userAnswers.length === 5) {
+            // create an array of the correct answers from the database
+            let databaseQuestions = team.teamQuestions.filter(question => question.character === req.params.character);
+            databaseQuestions.filter(question => {
+                question.questions.filter(ques => databaseAnswers.push(ques.answer))
             })
-
-            // create an array of the user's answers
-            let answerArr = req.body.answer.split('_');
-
-            // check if the user's answer is a subset of the correct answers 
-            if(isSubsetOf(answerArr, correctAns)){
-                req.correctAnswers = answerArr;
-                req.ques = ques;
+            if(isSubsetOf(userAnswers, databaseAnswers)){
+                req.answerLength = userAnswers.length;
+                req.databaseQuestions = databaseQuestions;
                 next();
             } else {
                 res.status(400).send({ error: 'Dang! Wrong answer' });
             }
         } else {
-            res.status(401).send({ error: 'Question does not exist' });
+            return res.status(401).send({ error: 'Submit either three or five answers' });
         }
     } catch (error) {
         console.log(error)
         res.status(500).send({ error: 'Server error' });
     }
-}, hintGiver, levelChecker);
+}, hintGiver, levelChecker, scorer);
 
 // helper route to create question in the database
 router.post('/createQuestion', (req, res) => {

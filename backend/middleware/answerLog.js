@@ -1,15 +1,16 @@
 const Team = require('./../models/Team');
 
-module.exports = function (req, res, next) {
+module.exports = async (req, res, next) => {
     try {
-        Team.findOneAndUpdate(
+        // add answer to the answer log only if it is unique
+        await Team.findOneAndUpdate(
             { 
                 teamMembers: {
                     $elemMatch: req.user
                 } 
             },
             {
-                $push: {
+                $addToSet: {
                     answerLog: req.body.answer
                 }
             }

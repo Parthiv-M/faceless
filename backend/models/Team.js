@@ -10,16 +10,24 @@ const Team = new Schema({
     },
     teamName: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minLength: 4,
+        maxLength: 10
     },
     teamMembers: {
         type: Array,
         required: true
     },
-    questionsAns: {
-        type: Number,
-        default: 0
-    },  
+    teamQuestions: [{
+        character: {
+            type: String,
+            default: 'Okami'
+        },
+        questions: {
+            type: Array
+        }
+    }],  
     score: {
         type: Number,
         default: 0

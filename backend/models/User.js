@@ -11,10 +11,13 @@ const User = new Schema({
     userName: {
         type: String,
         required: true,
+        minLength: 4,
+        maxLength: 10
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     registrationNum: {
       type: String,
@@ -23,18 +26,20 @@ const User = new Schema({
     },  
     college: {
       type: String,
-      required: true
+      required: true,
     },
     teamCode: {
         type: String,
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minLength: 4,
+        maxLength: 10
     },
     score: {
         type: Number,
-        default: 0
+        default: 0,
     },
 });
 
