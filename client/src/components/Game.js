@@ -61,7 +61,6 @@ const GameScreen = () => {
                     answers: answers
                 }
                 let response = await submitAnswers(payload);
-                console.log(response.message);
                 if(Boolean(response.hint)){
                     setHint(response.hint)
                 } else if (Boolean(response.data.error)){
@@ -78,7 +77,7 @@ const GameScreen = () => {
                     }
                 } else if (response.message === 'Level cleared') {
                     window.location.reload();
-                }
+                };
             } catch (error) {
                 console.log(error)
                 history.push('/notFound');
