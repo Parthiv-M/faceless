@@ -39,46 +39,51 @@ const GameScreen = () => {
         }
     }
 
-    // method to submit the answers
-    const handleSubmitAnswers = async() => {
+    // removes the existing error messages
+    const removeExistingErrors = () => {
         document.getElementById('blank-answer').classList.remove('d-block');
         document.getElementById('blank-answer').classList.add('d-none');
+        document.getElementById('three-or-five').classList.remove('d-block');
+        document.getElementById('three-or-five').classList.add('d-none');
+        document.getElementById('hint').classList.remove('d-block');
+        document.getElementById('hint').classList.add('d-none');
+        document.getElementById('hint-taken').classList.remove('d-block');
+        document.getElementById('hint-taken').classList.add('d-none');
+    }
+
+    // method to submit the answers
+    const handleSubmitAnswers = async() => {
+        removeExistingErrors();
         if(handleBlankAnswer()){
             try {
                 let payload = {
                     character: user.character,
                     answers: answers
                 }
-                if(answers.split('_').length === 3 && user.hintTaken){
-                    // check if the hint has been taken
-                        document.getElementById('hint').classList.remove('d-block');
-                        document.getElementById('hint').classList.add('d-none');
+                let response = await submitAnswers(payload);
+                console.log(response.message);
+                if(Boolean(response.hint)){
+                    setHint(response.hint)
+                } else if (Boolean(response.data.error)){
+                    if(response.data.error === 'Submit either three or five answers'){
+                        document.getElementById('three-or-five').classList.remove('d-none');
+                        document.getElementById('three-or-five').classList.add('d-block');
+                    } else if (response.data.error === 'Dang! Wrong answer') {
+                        triggerToast();
+                    } 
+                } else if (Boolean(response.data.code)) {
+                    if(response.data.code === 10) {
                         document.getElementById('hint-taken').classList.remove('d-none');
                         document.getElementById('hint-taken').classList.add('d-block');
-                        setTimeout(() => {
-                            document.getElementById('hint-taken').classList.remove('d-block');
-                            document.getElementById('hint-taken').classList.add('d-none');
-                        }, 2500);
-                } else {
-                    let response = await submitAnswers(payload);
-                    console.log(response);
-                    if(response.code === 0) {
-                        setHint(response.hint);
-                        dispatch({ type: 'HINT_TAKEN' });
-                    } else if(response.code === 1){
-                        window.location.reload();
-                        dispatch({ type: 'RESET_HINT' });
-                    } else if(response.status === 400) {
-                        triggerToast();
                     }
+                } else if (response.message === 'Level cleared') {
+                    window.location.reload();
                 }
             } catch (error) {
+                console.log(error)
                 history.push('/notFound');
             }
-        } else {
-            document.getElementById('blank-answer').classList.remove('d-none');
-            document.getElementById('blank-answer').classList.add('d-block');
-        }
+        } 
     }
 
     // method to fetch character
@@ -87,7 +92,7 @@ const GameScreen = () => {
             let response = await getCharacterForTeam(dispatch);
             await getStory();
         } catch (error) {
-            console.log(error);
+            history.push('/notFound');
         }
     }
 
@@ -100,9 +105,8 @@ const GameScreen = () => {
             let response = await getStoryline(payload);
             setStory(response.story)
             await getQuestions();
-            console.log(response)
         } catch (error) {
-            console.log(error)
+            history.push('/notFound');
         }
     }
 
@@ -114,10 +118,8 @@ const GameScreen = () => {
             } 
             let response = await getQuestionsForTeam(dispatch, payload);
             setQuestions(response);
-            console.log(response)
             setLoading(false);
         } catch (error) {
-            console.log(error);
             history.push('/notFound');
         }
     }
@@ -136,7 +138,7 @@ const GameScreen = () => {
             <Navbar />
             <div>
             <div className='fixed-background position-fixed'></div>
-            <div className="w-full d-flex flex-column justify-content-center align-items-center">
+            <div style={{height: '100%'}} className="d-flex flex-column justify-content-center align-items-center">
                 <div className="font-size-24 font-weight-bolder mt-20" style={{ color:'#FEDF00' }}>{user.character}</div>
                 <div className="text-justify font-size-16 text-light p-20 mb-xs-20" style={{ width: '75%' }}>
                     <ReactMarkdown>
@@ -166,7 +168,10 @@ const GameScreen = () => {
                           Answers cannot be blank
                     </div>
                     <div className="invalid-feedback d-none" id="hint-taken" style={{ color:'#FEDF00' }}>
-                          You already have taken one piece of evidence with you, Agent A.
+                        You already have taken one piece of evidence with you, Agent A.
+                    </div>
+                    <div className="invalid-feedback d-none" id="three-or-five" style={{ color:'#FEDF00' }}>
+                        Submit either three or five answers
                     </div>
                     <div className="invalid-feedback" id="hint" style={{ color:'#FEDF00' }}>
                           {hint}

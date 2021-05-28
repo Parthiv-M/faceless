@@ -11,18 +11,12 @@ let character = localStorage.getItem("character")
   ? localStorage.getItem("character")
   : '';
 
-let score = localStorage.getItem("score")
-  ? localStorage.getItem("score")
-  : '0';
- 
 export const initialState = {
   token: token,
   teamName: team,
   character: character,
-  score: score,
   loading: false,
-  errorMessage: null,
-  hintTaken: false
+  errorMessage: null
 };
  
 export const AuthReducer = (initialState, action) => {
@@ -72,16 +66,6 @@ export const AuthReducer = (initialState, action) => {
           character: action.payload,
           loading: false,
         };
-    case "HINT_TAKEN":
-      return {
-        ...initialState,
-        hintTaken: true
-      };
-    case "RESET_HINT":
-      return {
-        ...initialState,
-        hintTaken: false
-      };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

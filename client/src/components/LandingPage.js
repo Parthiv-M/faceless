@@ -28,7 +28,7 @@ const LandingPage = () => {
         <Loading />
         :
         <div>
-            <div className='position-fixed' style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
+            <div className='position-fixed d-none d-md-block' style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
                 <ParticlesYellow value={80} dotColor='#FEDF00' lineColor='#FFFFFF'/>
             </div>
             <div className='d-flex flex-column position-fixed align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>
@@ -42,7 +42,7 @@ const LandingPage = () => {
                     <a href="/signUp" className="btn btn-lg mx-5 my-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }} role="button">SIGN UP</a>
                     <a href="/signIn" className="btn btn-lg mx-5 my-10 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }} role="button">SIGN IN</a>
                 </div>
-                <div className='d-flex flex-column flex-md-row h-150 w-full justify-content-between align-items-center position-fixed logo-bar' style={{ bottom: 0 }}>
+                <div className='d-flex flex-column flex-md-row h-150 w-full justify-content-between align-items-center position-fixed logo-bar' style={{ bottom: 0, zIndex: -99 }}>
                     <img src={mistLogo} alt='MIST Logo' className='h-50 d-none d-md-block'/>
                     <img src={incognitoLight} alt='Incognito logo' height={80}/>
                 </div>

@@ -57,7 +57,8 @@ export async function loginUser(dispatch, loginPayload) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        let errObj = {...error};
+        resp = errObj.response;
         dispatch({ type: 'AUTH_ERROR', error: error });
       });
       return resp;
@@ -97,7 +98,8 @@ export async function createTeam(dispatch, createTeamPayload) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        let errObj = {...error};
+        resp = errObj.response;
       });
       return resp;
   } catch (error) {
@@ -311,9 +313,7 @@ export async function submitAnswers(payload) {
     })
     .catch((error) => {
       let errObj = {...error};
-      if(errObj.response.status === 400) {
-        resp = errObj.response;
-      }
+      resp = errObj.response;
     });        
     return resp;
   } catch (error) {

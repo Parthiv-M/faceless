@@ -36,7 +36,7 @@ router.get('/getQuestion/:characterName', authenticate, async(req, res) => {
         });
         if(clearedCharacters.includes(req.params.characterName)){   // return existing questions
             let teamQuestions = team.teamQuestions.filter(question => question.character === req.params.characterName);
-            res.status(200).send(teamQuestions);
+            res.status(200).send(teamQuestions[0].questions);
         } else {    // generate random questions and return them
             var ques = await Question.find({ character: req.params.characterName });    
             if(!ques) {

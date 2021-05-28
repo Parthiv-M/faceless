@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('./../models/User');
 const Team = require('./../models/Team');
 const bcrypt = require('bcryptjs');
+const { nanoid } = require('nanoid');
 const authenticate = require('./../middleware/authenticate');
 const { check, validationResult } = require('express-validator');
 
@@ -42,7 +43,6 @@ router.post('/signUp',
             res.status(200).send({ message: "Sign up successful" });
         }
         ).catch((err) => {
-            // res.status(403).send({ error: 'Oops, error creating user', path: err.keyPattern });
             res.status(403).send({ error: 'Oops, error creating user', path: err });
         });
     } catch (error) {
@@ -65,12 +65,7 @@ router.post('/createTeam', authenticate, async(req, res) => {
     }
 
     // generating a random team code
-    var teamCode = Math.floor(Math.random() * 100) + 100;
-    var userNameLength = req.user.userName.length;
-    teamCode = teamCode 
-                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)] 
-                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)] 
-                + req.user.userName.split('')[Math.floor(Math.random() * userNameLength)];
+    var teamCode = nanoid(6);
     var team = new Team({
         teamCode: teamCode,
         teamName: req.body.teamName,
@@ -80,15 +75,18 @@ router.post('/createTeam', authenticate, async(req, res) => {
     try {
         // saves the team to database
         team.save().then(async() => {
-            await User.findOneAndUpdate(
+            User.findOneAndUpdate(
                 { _id: req.user.userId },
                 {
                     $set: {
                         teamCode: team.teamCode
                     }
                 }
-            );
-            res.status(200).send({ message: 'Team created successfully' });
+            ).then(() => {
+                res.status(200).send({ message: 'Team created successfully' });
+            })
+        }).catch((err) => {
+            res.status(400).send({ error: err });
         });        
     } catch (error) {
         res.status(500).send({ error: 'Server error' });
@@ -158,7 +156,7 @@ router.post('/signIn',
         const { email, password } = req.body;
 
         // check if user exists in the database
-        let user = await (await User.findOne({ email }));
+        let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
                 errors: [{ msg: 'Invalid Credentials' }]

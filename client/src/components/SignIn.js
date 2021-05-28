@@ -32,10 +32,12 @@ const SignIn = () => {
         }
         if(data.email !== '' && data.password !== '')
             return true;
-      }
+    }
 
     // method to handle sign in
     const handleSignIn = async (e) => {
+        document.getElementById('invalid-password-error').classList.remove('d-block');
+        document.getElementById('invalid-password-error').classList.add('d-none');
         if(handleBlankFields()){
             e.preventDefault();      
             let payload = {
@@ -44,11 +46,18 @@ const SignIn = () => {
             }
             setData(payload);
             try {
-                await signInUser(dispatch, payload);
-                console.log('goin')
-                await getTeamDetails(dispatch);
-                history.push('/dashboard');
+                let response = await signInUser(dispatch, payload);
+                console.log(response);
+                if(response.message === 'Login successful') {
+                    await getTeamDetails(dispatch);
+                    history.push('/dashboard');
+                }
+                else if(response.data.errors[0].msg === 'Invalid Password') {
+                    document.getElementById('invalid-password-error').classList.remove('d-none');
+                    document.getElementById('invalid-password-error').classList.add('d-block');
+                } 
             } catch (error) {
+                console.log(error);
                 history.push('/notFound');
             }
         } 
@@ -87,7 +96,10 @@ const SignIn = () => {
                         <input type="password" className="form-control w-full bg-transparent" style={{ borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00' }} onChange={(e) => { data.password = e.target.value; }}/>
                     </div> 
                     <div className="invalid-feedback text-left d-none" id="blank-password-error-signin" style={{ color:'#FEDF00' }}>
-                            Password cannot be blank
+                        Password cannot be blank
+                    </div>
+                    <div className="invalid-feedback text-left d-none" id="invalid-password-error" style={{ color:'#FEDF00' }}>
+                        Invalid password
                     </div>
                 </div>
                 <Button onClick={handleSignIn} className="float-md-left btn btn-lg mt-20 w-150 h-auto animate-white" style={{ borderRadius:'2.5rem' }}>Sign in</Button>
