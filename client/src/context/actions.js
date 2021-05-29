@@ -91,6 +91,7 @@ export async function createTeam(dispatch, createTeamPayload) {
         data: JSON.stringify(createTeamPayload),
       })
       .then((response) => {
+        console.log(response)
         if (response.status === 200) {
             dispatch({ type: 'SET_TEAM', payload: createTeamPayload.teamName });
             localStorage.setItem('teamName', createTeamPayload.teamName);

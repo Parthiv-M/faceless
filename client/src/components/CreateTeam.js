@@ -51,9 +51,10 @@ const CreateTeam = () => {
             setTeamName(payload);
             try {
                 let response = await createTeam(dispatch, payload);
-                if(response.status === 200) {
+                console.log(response)
+                if(response.message === 'Team created successfully') {
                     history.push('/dashboard');
-                } else if(response.data.error !== undefined){
+                } else if(Boolean(response.data)){
                     if(Boolean(response.data.error.errors)){
                         if(response.data.error.errors.teamName.kind === 'minlength') {
                             document.getElementById('teamname-minlength-error').classList.remove('d-none');
@@ -81,7 +82,7 @@ const CreateTeam = () => {
 
     return (
         user.loading 
-        ? 
+        ?       
         <Loading />
         :
         <div className='d-flex justify-content-center align-items-center' style={{ height: '100vh' }}>
