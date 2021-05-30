@@ -87,19 +87,26 @@ router.post('/submitAnswer/:character', authenticate, answerLogger, async (req, 
             let databaseQuestions = team.teamQuestions.filter(question => question.character === req.params.character);
             databaseQuestions.filter(question => {
                 question.questions.filter(ques => databaseAnswers.push(ques.answer))
-            })
+            });
+            for(let i = 0; i< userAnswers.length ; i++) {
+                for(let j = i+1; j < userAnswers.length; j++){
+                    if(userAnswers[j] === userAnswers[i])
+                    {
+                        return res.status(401).send({ error: 'Smart move, Agent. That\'s the wrong way to go' });
+                    }
+                }
+            }
             if(isSubsetOf(userAnswers, databaseAnswers)){
                 req.answerLength = userAnswers.length;
                 req.databaseQuestions = databaseQuestions;
                 next();
             } else {
-                res.status(400).send({ error: 'Dang! Wrong answer' });
+                return res.status(400).send({ error: 'Dang! Wrong answer' });
             }
         } else {
             return res.status(401).send({ error: 'Submit either three or five answers' });
         }
     } catch (error) {
-        console.log(error)
         res.status(500).send({ error: 'Server error' });
     }
 }, hintGiver, levelChecker, scorer);
