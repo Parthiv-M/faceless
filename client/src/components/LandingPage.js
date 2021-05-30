@@ -28,7 +28,7 @@ const LandingPage = () => {
         <Loading />
         :
         <div>
-            <div className='position-fixed d-none d-md-block' style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
+            <div className='position-fixed d-block' style={{ zIndex: '-99', height: '100vh', width: '100vw' }}>
                 <ParticlesYellow value={80} dotColor='#FEDF00' lineColor='#FFFFFF'/>
             </div>
             <div className='d-flex flex-column position-fixed align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>

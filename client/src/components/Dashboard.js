@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import logo from './../assets/faceless.png';
 import './../App.css';
 import Navbar from './NavBar';
@@ -7,17 +7,40 @@ import Loading from './Loader';
 import ParticlesYellow from './Particles';
 import discord  from './../assets/discord.png';
 import sample  from './../assets/sample.png';
+import { HelpCircle } from 'react-feather';
 
 const DashBoard = () => {
 
     const user = useFacelessState();
+    const [show, setShow] = useState(false);
     
+    const handleShow = () => {
+        setShow(!show);
+    }
+
     return (
         user.loading 
         ? 
         <Loading />
         :
         <div>
+            {
+            show ? 
+            <div onClick={handleShow} className='position-fixed d-flex flex-column justify-content-center align-items-center h-full w-full' style={{ backgroundColor:'rgba(32, 32, 32, 0.94)', zIndex: 1000 }}>
+                <div className='w-md-half w-three-quarter text-white text-justify'>
+                    <span style={{ color: '#FEDF00' }}>Open Source Intelligence</span>, or OSINT, is a multi-factor methodology to collect, analyse, and make decisions about data that is publicly accessible.
+                    More often than not, intellignece agencies use the idea of OSINT to track events, weapon systems, and people—referred to as targets of interest. <span style={{ color: '#FEDF00' }}>Doxing</span>, 
+                    derived from the term 'dropping documents', is the darker side of OSINT. It involves the act of compiling a dossier against the victim and publishing it online. 
+                    The techniques involved in OSINT, learnt by malicious hackers for reconnaissance are mostly legal, since the data is publicly available.
+                </div>
+                <br />
+                <div className='border-bottom w-half mb-20' style={{ backgroundColor: '#FEDF00' }}></div>
+                <div className='w-md-half w-three-quarter text-white text-center'>
+                    <em>All characters in this event are a work of fiction. Any resemblance to any person, living or dead, is purely coincidental. </em>
+                </div>
+            </div>
+            : <> </>
+            }
             <Navbar />
             <div className='position-fixed w-full' id="particles" style={{ zIndex: '-99', height: '100vh' }}>
                 <ParticlesYellow value={70} dotColor='#FFFFFF' lineColor='#FEDF00'/>
@@ -33,19 +56,29 @@ const DashBoard = () => {
                     <a href="/game" className="btn btn-lg animate-white mx-5 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">P L A Y</a>
                 </div>
                 <div className='flex-row d-md-none d-flex justify-content-center align-items-center h-100 w-full position-fixed' style={{ bottom: 0 }}>
-                    <div className='h-50 px-15 d-flex align-items-center justify-content-around discord-floater' style={{ borderRadius: 50, width: '60%' }}>
-                        <span>
-                            Join the discord server
+                    <div onClick={handleShow} className='h-50 px-15 mr-5 d-flex align-items-center justify-content-center' style={{ borderRadius: 50, backgroundColor:'#FEDF00', width: '40%' }}>
+                        <span className='pt-5 mr-10'><HelpCircle size={20}/></span>MORE INFO
+                    </div>
+                    <div className='h-50 px-15 ml-5 d-flex align-items-center justify-content-around discord-floater' style={{ borderRadius: 50, width: '45%' }}>
+                        <span className='text-center'>
+                            {/* change the link later on */}
+                            <a href='https://discord.gg/tBdh8c7P' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>The discord server</a>
                         </span>
                         <span>
-                            <img height={30} alt='Discord logo' className='mt-10 mx-5' src={discord}/>
+                            <img height={20} alt='Discord logo' className='mt-10 mx-5' src={discord}/>
                         </span>
                     </div>
                 </div>
                 <div className='flex-row d-md-flex d-none justify-content-end align-items-center h-100 w-full position-fixed' style={{ bottom: 0 }}>
+                    <div onClick={handleShow} className='font-size-12 font-weight-bold mx-20 h-50 px-15 d-flex align-items-center justify-content-around' style={{ cursor: 'pointer', borderRadius: 50, backgroundColor:'#FEDF00', width: '8%' }}>
+                        <span className='pt-5'><HelpCircle size={20}/></span>MORE INFO 
+                    </div>
                     <div className='h-50 px-15 d-flex align-items-center justify-content-around w-50 mr-20 discord-floater' style={{ borderRadius: 50 }}>
                         <span>
-                            <img height={30} alt='Discord logo' src={discord}/>
+                            {/* change the link later on */}
+                            <a href='https://discord.gg/tBdh8c7P' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>
+                                <img height={30} alt='Discord logo' src={discord}/>
+                            </a>
                         </span>
                     </div>
                 </div>

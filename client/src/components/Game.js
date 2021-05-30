@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState } from 'react';
 import { ChevronRight } from 'react-feather';
 import Navbar from './NavBar';
 import { useHistory } from 'react-router-dom';
@@ -45,10 +45,12 @@ const GameScreen = () => {
         document.getElementById('blank-answer').classList.add('d-none');
         document.getElementById('three-or-five').classList.remove('d-block');
         document.getElementById('three-or-five').classList.add('d-none');
-        document.getElementById('hint').classList.remove('d-block');
-        document.getElementById('hint').classList.add('d-none');
         document.getElementById('hint-taken').classList.remove('d-block');
         document.getElementById('hint-taken').classList.add('d-none');
+        document.getElementById('duplicate-answer').classList.remove('d-block');
+        document.getElementById('duplicate-answer').classList.add('d-none');
+        document.getElementById('hint').classList.remove('d-block');
+        document.getElementById('hint').classList.add('d-none');
     }
 
     // method to submit the answers
@@ -61,12 +63,18 @@ const GameScreen = () => {
                     answers: answers
                 }
                 let response = await submitAnswers(payload);
+                console.log(response)
                 if(Boolean(response.hint)){
-                    setHint(response.hint)
+                    setHint(response.hint);
+                    document.getElementById('hint').classList.remove('d-none');
+                    document.getElementById('hint').classList.add('d-block');
                 } else if (Boolean(response.data.error)){
                     if(response.data.error === 'Submit either three or five answers'){
                         document.getElementById('three-or-five').classList.remove('d-none');
                         document.getElementById('three-or-five').classList.add('d-block');
+                    } else if(response.data.error === 'Smart move, Agent. That\'s the wrong way to go'){
+                        document.getElementById('duplicate-answer').classList.remove('d-none');
+                        document.getElementById('duplicate-answer').classList.add('d-block');
                     } else if (response.data.error === 'Dang! Wrong answer') {
                         triggerToast();
                     } 
@@ -139,16 +147,16 @@ const GameScreen = () => {
             <div className='fixed-background position-fixed'></div>
             <div style={{height: '100%'}} className="d-flex flex-column justify-content-center align-items-center">
                 <div className="font-size-24 font-weight-bolder mt-20" style={{ color:'#FEDF00' }}>{user.character}</div>
-                <div className="text-justify font-size-16 text-light p-20 mb-xs-20" style={{ width: '75%' }}>
+                <div className="text-justify font-size-16 text-light py-20 mb-xs-20" style={{ width: '80%' }}>
                     <ReactMarkdown>
                         {story} 
                     </ReactMarkdown>                
                 </div>
-                <div className="w-full d-flex align-items-md-center flex-column p-20 font-size-18 text-white">
+                <div className="w-full d-flex align-items-center flex-column p-20 font-size-18 text-white">
                     {
                         questions.map((question, index) => {
                                 return (
-                                    <div key={index} className="d-flex flex-row w-550 align-items-center p-5">
+                                    <div key={index} className="d-flex flex-row w-400 w-md-500 align-items-center p-5">
                                         <div className="mx-15" style={{ color: '#FEDF00' }}>{index + 1}</div>
                                         <div className="text-left">{question.question}</div>
                                     </div>
@@ -172,7 +180,10 @@ const GameScreen = () => {
                     <div className="invalid-feedback d-none" id="three-or-five" style={{ color:'#FEDF00' }}>
                         Submit either three or five answers
                     </div>
-                    <div className="invalid-feedback" id="hint" style={{ color:'#FEDF00' }}>
+                    <div className="invalid-feedback d-none" id="duplicate-answer" style={{ color:'#FEDF00' }}>
+                        Smart move, Agent. That's the wrong way to go
+                    </div>
+                    <div className="invalid-feedback d-block text-center" id="hint" style={{ color:'#FEDF00' }}>
                           {hint}
                     </div>
                     <div className='m-auto font-size-14 text-center d-none w-200 p-10' id='answer-toast'>
