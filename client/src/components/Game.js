@@ -64,7 +64,12 @@ const GameScreen = () => {
                 }
                 let response = await submitAnswers(payload);
                 console.log(response)
-                if(Boolean(response.hint)){
+                if (response.message === 'Level cleared') {
+                    setLoading(true);
+                    await getCharacterOfTeam();
+                    await getStory();
+                    await getQuestions();
+                } else if(Boolean(response.hint)){
                     setHint(response.hint);
                     document.getElementById('hint').classList.remove('d-none');
                     document.getElementById('hint').classList.add('d-block');
@@ -83,21 +88,21 @@ const GameScreen = () => {
                         document.getElementById('hint-taken').classList.remove('d-none');
                         document.getElementById('hint-taken').classList.add('d-block');
                     }
-                } else if (response.message === 'Level cleared') {
-                    window.location.reload();
-                };
+                } 
             } catch (error) {
                 console.log(error)
                 history.push('/notFound');
             }
-        } 
+        } else {
+            document.getElementById('blank-answer').classList.remove('d-none');
+            document.getElementById('blank-answer').classList.add('d-block');
+        }
     }
 
     // method to fetch character
     const getCharacterOfTeam = async() => {
         try { 
             let response = await getCharacterForTeam(dispatch);
-            await getStory();
         } catch (error) {
             history.push('/notFound');
         }
@@ -110,8 +115,7 @@ const GameScreen = () => {
                 character: user.character
             }
             let response = await getStoryline(payload);
-            setStory(response.story)
-            await getQuestions();
+            setStory(response.story);            
         } catch (error) {
             history.push('/notFound');
         }
@@ -133,7 +137,9 @@ const GameScreen = () => {
 
     // triggered once every time the page loads
     useEffect(async () => { 
-        await getCharacterOfTeam()
+        await getCharacterOfTeam();
+        await getStory();
+        await getQuestions();
     }, []);
 
     return (
@@ -172,7 +178,7 @@ const GameScreen = () => {
                         </div>
                     </div>
                     <div className="invalid-feedback text-center d-none" id="blank-answer" style={{ color:'#FEDF00' }}>
-                          Answers cannot be blank
+                        Answers cannot be blank
                     </div>
                     <div className="invalid-feedback d-none" id="hint-taken" style={{ color:'#FEDF00' }}>
                         You already have taken one piece of evidence with you, Agent A.

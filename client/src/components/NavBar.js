@@ -60,6 +60,9 @@ const Navbar = () => {
                     </a>
                     <a href="/game" className="navbar-link font-size-16 px-10 d-none d-md-block">
                         PLAY
+                    </a>
+                    <a href="/credits" className="navbar-link font-size-16 px-10 d-none d-md-block">
+                        THE TEAM 
                     </a>                    
                 </div>
                 <div className="navbar-content d-flex">

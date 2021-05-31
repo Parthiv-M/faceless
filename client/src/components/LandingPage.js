@@ -32,6 +32,9 @@ const LandingPage = () => {
                 <ParticlesYellow value={80} dotColor='#FEDF00' lineColor='#FFFFFF'/>
             </div>
             <div className='d-flex flex-column position-fixed align-items-center justify-content-center' style={{  height: '100vh', width: '100vw' }}>
+                <div className='h-50 w-full d-flex align-items-center justify-content-center justify-content-md-end position-fixed font-weight-bold px-20' style={{ top: 0, color:'#FEDF00', zIndex: '-99'  }}>
+                    <a href='/credits' style={{ color:'#FEDF00', zIndex: '-99', cursor: 'pointer' }}>The Team</a>
+                </div>
                 <div className='text-center'>
                     <img src={logo} className='h-md-250 h-200' alt="Faceless Logo"/>
                 </div>

@@ -83,7 +83,7 @@ const DashBoard = () => {
                     </div>
                 </div>
             </div>
-            <div className="d-xs-block d-md-flex w-full m-auto flex-column justify-content-center content" style={{ height: '100vh' }}>
+            <div className="d-xs-block d-md-flex w-full m-auto flex-column justify-content-center dashboard-content" style={{ height: '100vh' }}>
                 <div className="text-white font-size-24 font-weight-bolder py-5">
                     ABOUT
                     <hr style={{ backgroundColor:'#FEDF00', height:'0.15rem', width:'7rem' }}></hr>

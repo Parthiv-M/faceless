@@ -306,8 +306,7 @@ export async function submitAnswers(payload) {
       console.log(response)
       if (response.status === 200) {
           resp = response.data;
-          if(resp.code === 1)
-            localStorage.setItem('character', resp.character);
+          localStorage.removeItem('character');
       } else if (response.statusCode === 400) {
           console.log('ke')
       } 

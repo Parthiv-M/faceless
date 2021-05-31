@@ -10,6 +10,7 @@ import JoinTeam from './../components/JoinTeam';
 import GameScreen from './../components/Game';
 import ScoreBoard from './../components/ScoreBoard';
 import TeamProfile from './../components/TeamProfile';
+import Credits from '../components/Credits';
 
 const routes = [  
   {
@@ -25,6 +26,11 @@ const routes = [
   {
     path:'/signIn',
     component: SignIn,
+    isPrivate: false
+  },
+  {
+    path:'/credits',
+    component: Credits,
     isPrivate: false
   },
   {
