@@ -5,6 +5,79 @@ import mistLogo  from './../assets/MISTlogoLight.png';
 import incognitoLight from './../assets/incognitoLogoLight.png';
 import { Instagram, GitHub, Linkedin, Home } from 'react-feather';
 
+const board = [
+    {
+        name: 'Aditya Pradhan',
+        instagram: '',
+        github: 'https://github.com/AdityaPradhan1',
+        linkedin: 'https://www.linkedin.com/in/aditya-pradhan-00237b1b5/',
+        image: 'https://live.staticflickr.com/65535/50380007562_47e33fc040_m.jpg'
+    },
+    {
+        name: 'Akash Krishna',
+        instagram: '',
+        github: 'https://github.com/akash-132',
+        linkedin: 'https://www.linkedin.com/in/k-akash-krishna-1a3493167/',
+        image: 'https://live.staticflickr.com/65535/49733165363_6f31817db1_m.jpg'
+    },
+    {
+        name: 'Prachotan Reddy',
+        instagram: '',
+        github: 'https://github.com/PrachotanReddy',
+        linkedin: 'https://www.linkedin.com/in/prachotanbathi/',
+        image: 'https://live.staticflickr.com/65535/49733164628_1f82882b1a_m.jpg'
+    },
+    {
+        name: 'Dhruv Bhat',
+        instagram: '',
+        github: 'https://ww.github.com/spaceman-dev',
+        linkedin: 'https://www.linkedin.com/in/dhruv-bhat-912965199/',
+        image: 'https://live.staticflickr.com/65535/49733710091_5398e21c77_m.jpg'
+    },
+    {
+        name: 'Enrique Ferrao',
+        instagram: '',
+        github: 'https://github.com/enriqueferrao',
+        linkedin: 'https://www.linkedin.com/in/enrique-ferrao/',
+        image: 'https://live.staticflickr.com/65535/49734033632_a52c4dd516_m.jpg'
+    },
+    {
+        name: 'Pranav Reddy',
+        instagram: '',
+        github: 'https://github.com/PranavReddyG',
+        linkedin: 'https://linkedin.com/in/pranavreddyg',
+        image: 'https://live.staticflickr.com/65535/50378936733_2b2a10b037_m.jpg'
+    },
+    {
+        name: 'Yash Aryan',
+        instagram: '',
+        github: 'https://github.com/canaryGrapher',
+        linkedin: 'https://www.linkedin.com/in/yasharyan/',
+        image: 'https://live.staticflickr.com/65535/50382204311_b0f643a718_m.jpg'
+    },
+    {
+        name: 'Ishaan Taneja',
+        instagram: '',
+        github: '',
+        linkedin: 'https://www.linkedin.com/in/ishaan-taneja-0a9b8a18b',
+        image: 'https://live.staticflickr.com/65535/50379875007_463035d83f_m.jpg'
+    },
+    {
+        name: 'Sameer Rastogi',
+        instagram: '',
+        github: 'https://github.com/SameerRastogi00',
+        linkedin: 'https://www.linkedin.com/in/sameer-rastogi-457a931a5/',
+        image: 'https://live.staticflickr.com/65535/50379004303_d76bdfdd4b_m.jpg'
+    },
+    {
+        name: 'Pradhyuman Yadav',
+        instagram: '',
+        github: 'https://github.com/pradhyuman-yadav',
+        linkedin: 'https://www.linkedin.com/in/pradhyuman-yadav/',
+        image: 'https://live.staticflickr.com/65535/49734032972_30ac4da8cc_m.jpg'
+    },
+];
+
 const manComm = [
     {
         name: 'Parthiv Menon',
@@ -91,7 +164,53 @@ const wc = [
     "Yash Dhaga"
 ]
 
-const Teamcards = manComm.map((item) => {
+const MancommCards = manComm.map((item) => {
+    return(
+        <div className="w-200 d-flex justify-content-center align-items-center">
+        <div className="card w-200 m-0 p-0 bg-transparent h-300 order border-0">
+                <div className = "d-flex justify-content-center align-items-center pt-10" style={{}}>
+                    <img src={item.image} height='170px' width='170px' style={{ borderRadius:'50%', filter:'drop-shadow(0px 0px 20px #080808)'}} alt={item.name}/>
+                </div>
+                <div className="content text-center text-white my-5">
+                    <div className="content-title font-size-18 mb-15 pb-10" style={{borderBottom: '2px solid #FEDF00'}}>
+                        {item.name}
+                    </div>
+                    <div className="w-auto d-flex flex-row justify-content-around text-white"> 
+                        {
+                            item.instagram 
+                            ? 
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.instagram}>
+                                <Instagram color="white" size={30}/>
+                            </a> 
+                            : 
+                            <></>
+                        }
+                        {
+                            item.github 
+                            ? 
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.github}>
+                                <GitHub color="white" size={30}/>
+                            </a>
+                            :
+                            <></>
+                        }
+                        {
+                            item.linkedin 
+                            ?
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.linkedin}>
+                                <Linkedin color="white" size={30}/>
+                            </a>
+                            :
+                            <></>   
+                        }
+                    </div>
+                </div>
+        </div>
+    </div>
+    )
+});
+
+const BoardCards = board.map((item) => {
     return(
         <div className="w-200 d-flex justify-content-center align-items-center">
         <div className="card w-200 m-0 p-0 bg-transparent h-300 order border-0">
@@ -162,10 +281,15 @@ const Credits = () => {
                         <img src={mttnLogo} alt="MTTN logo" height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
                     </div>
                 </div>
+                <div className="font-size-24 font-weight-bolder mt-10 pt-20" style={{color:'#FEDF00'}}>Core Committee</div>
+                <hr style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'4rem'}}/>
+                <div className="d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-center">
+                    {BoardCards}
+                </div>
                 <div className="font-size-24 font-weight-bolder mt-10 pt-20" style={{color:'#FEDF00'}}>The Faces Behind Faceless</div>
                 <hr style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'4rem'}}/>
                 <div className="d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-center">
-                    {Teamcards}
+                    {MancommCards}
                 </div>
                 <div className="font-size-24 font-weight-bolder mt-10 pt-20" style={{color:'#FEDF00'}}>Helping Hands</div>
                 <hr style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'4rem'}}/>
