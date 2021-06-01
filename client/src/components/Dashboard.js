@@ -52,7 +52,7 @@ const DashBoard = () => {
                 <div className="text-center font-italic font-size-24 font-size-md-18 text-light">
                     <p>people with many faces</p>
                 </div>
-                <div className="mt-20 d-flex flex-column text-center font-weight-bolder font-size-24 text-light pt-20">
+                <div className="mt-20 d-flex flex-column justify-content-center align-items-center flex-md-row font-weight-bolder font-size-24 text-light pt-20">
                     <a href="/game" className="btn btn-lg animate-white mx-5 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">P L A Y</a>
                     <a href="#more" className="btn btn-lg animate-white mx-5 my-10 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">HOW TO PLAY</a>
                 </div>
