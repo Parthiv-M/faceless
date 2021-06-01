@@ -52,8 +52,9 @@ const DashBoard = () => {
                 <div className="text-center font-italic font-size-24 font-size-md-18 text-light">
                     <p>people with many faces</p>
                 </div>
-                <div className="mt-20 text-center font-weight-bolder font-size-24 text-light pt-20">
+                <div className="mt-20 d-flex flex-column text-center font-weight-bolder font-size-24 text-light pt-20">
                     <a href="/game" className="btn btn-lg animate-white mx-5 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">P L A Y</a>
+                    <a href="#more" className="btn btn-lg animate-white mx-5 my-10 w-150 h-auto" style={{ borderRadius:'2.5rem' }} role="button">HOW TO PLAY</a>
                 </div>
                 <div className='flex-row d-md-none d-flex justify-content-center align-items-center h-100 w-full position-fixed' style={{ bottom: 0 }}>
                     <div onClick={handleShow} className='h-50 px-15 mr-5 d-flex align-items-center justify-content-center' style={{ borderRadius: 50, backgroundColor:'#FEDF00', width: '40%' }}>
@@ -61,8 +62,7 @@ const DashBoard = () => {
                     </div>
                     <div className='h-50 px-15 ml-5 d-flex align-items-center justify-content-around discord-floater' style={{ borderRadius: 50, width: '45%' }}>
                         <span className='text-center'>
-                            {/* change the link later on */}
-                            <a href='https://discord.gg/tBdh8c7P' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>The discord server</a>
+                            <a href='https://discord.gg/VbNq5EBh' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>The discord server</a>
                         </span>
                         <span>
                             <img height={20} alt='Discord logo' className='mt-10 mx-5' src={discord}/>
@@ -75,15 +75,14 @@ const DashBoard = () => {
                     </div>
                     <div className='h-50 px-15 d-flex align-items-center justify-content-around w-50 mr-20 discord-floater' style={{ borderRadius: 50 }}>
                         <span>
-                            {/* change the link later on */}
-                            <a href='https://discord.gg/tBdh8c7P' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>
+                            <a href='https://discord.gg/VbNq5EBh' target='_blank' rel='noreferrer' style={{ textDecoration: 'none', color: 'black' }}>
                                 <img height={30} alt='Discord logo' src={discord}/>
                             </a>
                         </span>
                     </div>
                 </div>
             </div>
-            <div className="d-xs-block d-md-flex w-full m-auto flex-column justify-content-center dashboard-content" style={{ height: '100vh' }}>
+            <div id="more" className="d-xs-block d-md-flex w-full m-auto mt-5 flex-column justify-content-center dashboard-content" style={{ height: '100vh' }}>
                 <div className="text-white font-size-24 font-weight-bolder py-5">
                     ABOUT
                     <hr style={{ backgroundColor:'#FEDF00', height:'0.15rem', width:'7rem' }}></hr>
@@ -101,6 +100,7 @@ const DashBoard = () => {
                 <div className="text-light font-size-16 pb-20">
                     <ol className='mt-5'>
                         <li>All answers are to be submitted in <span className='font-weight-bold'>lowercase</span> only</li>
+                        <li>If the answer contains multiple words, <span className='font-weight-bold'>no space</span> should be given while submitting the answer</li>
                         <li>Participating teams are requested not to bombard any person's social media accounts (if any) and respect the spirit of the game</li>
                         <li>All numeric answers should be spelled out while submitting</li>
                         <li>Participants are requested not to share the answers or character names with fellow participants. Any team doing so, if found out, will be disqualified from the contest</li>

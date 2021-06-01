@@ -214,6 +214,7 @@ export async function getQuestionsForTeam(dispatch, payload) {
     .then((response) => {
       if (response.status === 200) {
           resp = response.data;
+          dispatch({ type: 'SET_QUESTIONS', payload: response.data });
       }
     })
     .catch((error) => {
@@ -257,7 +258,7 @@ export async function getTeamDetails(dispatch) {
 }
 
 // action to fetch storyline of a character from the database
-export async function getStoryline(payload) {
+export async function getStoryline(dispatch, payload) {
   try {
     let resp = {};
     await axios({
@@ -272,7 +273,9 @@ export async function getStoryline(payload) {
     })
     .then((response) => {
       if (response.status === 200) {
+          console.log(response.data);
           resp = response.data;
+          dispatch({ type: 'SET_STORY', payload: response.data.story });
       }
     })
     .catch((error) => {
@@ -307,9 +310,7 @@ export async function submitAnswers(payload) {
       if (response.status === 200) {
           resp = response.data;
           localStorage.removeItem('character');
-      } else if (response.statusCode === 400) {
-          console.log('ke')
-      } 
+      }
     })
     .catch((error) => {
       let errObj = {...error};

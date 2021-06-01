@@ -96,6 +96,8 @@ const SignUp = () => {
       document.getElementById('duplicate-regnum-error').classList.add('d-none');
       document.getElementById('duplicate-email-error').classList.remove('d-block');
       document.getElementById('duplicate-email-error').classList.add('d-none');
+      document.getElementById('duplicate-username-error').classList.remove('d-block');
+      document.getElementById('duplicate-username-error').classList.add('d-none');
       document.getElementById('username-minlength-error').classList.remove('d-block');
       document.getElementById('username-minlength-error').classList.add('d-none');
       document.getElementById('username-maxlength-error').classList.remove('d-block');
@@ -132,18 +134,21 @@ const SignUp = () => {
                 document.getElementById('duplicate-regnum-error').classList.remove('d-none');
                 document.getElementById('duplicate-regnum-error').classList.add('d-block');
                 return;
+              } else if(response.data.path.keyPattern.userName === 1) {
+                document.getElementById('duplicate-username-error').classList.remove('d-none');
+                document.getElementById('duplicate-username-error').classList.add('d-block');
+                return;
               } else if(response.data.path.keyPattern.email === 1) {
                 document.getElementById('duplicate-email-error').classList.remove('d-none');
                 document.getElementById('duplicate-email-error').classList.add('d-block');
                 return;
               }
-            } else if(response.data.errors[0].param === 'email'){
+            } else if(Boolean(response.data.errors)){
               setErroremail(response.data.errors[0].value);
               document.getElementById('invalid-email-error').classList.remove('d-none');
               document.getElementById('invalid-email-error').classList.add('d-block');
             } 
           } catch (error) {
-            console.log(error)
             history.push('/notFound');
           }
         } 
@@ -162,18 +167,45 @@ const SignUp = () => {
           }
           setData(payload);
           try {
-            let response = await signUpUser(dispatch, payload)
-            history.push('/joinTeam');
+            let response = await signUpUser(dispatch, payload);
+            if(response.status === 200) {
+              history.push('/joinTeam');
+            } else if(response.data.path !== undefined){
+              if(response.data.path.errors.userName.kind === 'minlength') {
+                document.getElementById('username-minlength-error').classList.remove('d-none');
+                document.getElementById('username-minlength-error').classList.add('d-block');
+                return;
+              } else if(response.data.path.errors.userName.kind === 'maxlength') {
+                document.getElementById('username-maxlength-error').classList.remove('d-none');
+                document.getElementById('username-maxlength-error').classList.add('d-block');
+                return;
+              } else if(response.data.path.keyPattern.registrationNum === 1) {
+                document.getElementById('duplicate-regnum-error').classList.remove('d-none');
+                document.getElementById('duplicate-regnum-error').classList.add('d-block');
+                return;
+              } else if(response.data.path.keyPattern.userName === 1) {
+                document.getElementById('duplicate-username-error').classList.remove('d-none');
+                document.getElementById('duplicate-username-error').classList.add('d-block');
+                return;
+              } else if(response.data.path.keyPattern.email === 1) {
+                document.getElementById('duplicate-email-error').classList.remove('d-none');
+                document.getElementById('duplicate-email-error').classList.add('d-block');
+                return;
+              }
+            } else if(Boolean(response.data.errors)){
+              setErroremail(response.data.errors[0].value);
+              document.getElementById('invalid-email-error').classList.remove('d-none');
+              document.getElementById('invalid-email-error').classList.add('d-block');
+            } 
           } catch (error) {
             history.push('/notFound');
-            console.log(error);
           } 
         }
       }
     
     useEffect(() => {
         if(user.token){
-            history.goForward();
+            history.push('/dashboard');
         } else {
             setLoading(false);
         }
@@ -203,6 +235,9 @@ const SignUp = () => {
                         <div className="invalid-feedback text-left d-none" id="username-maxlength-error" style={{ color:'#FEDF00' }}>
                           Username can contain maximum ten characters
                         </div>
+                        <div className="invalid-feedback text-left d-none" id="duplicate-username-error" style={{ color:'#FEDF00' }}>
+                          Username already taken
+                        </div>
                     </div>
                     <div className="form-group">
                         <label for="username" className="float-left text-white">Email ID</label>
@@ -219,7 +254,7 @@ const SignUp = () => {
                     </div>
                     <div className="form-group">
                         <label for="regnum" className="float-left text-white">Registration Number</label>
-                        <input type="text" className="form-control bg-transparent required" autoComplete="off" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.regNum = e.target.value; }}/>
+                        <input type="number" className="form-control bg-transparent required" autoComplete="off" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00'}} onChange={(e) => { data.regNum = e.target.value; }}/>
                         <div className="invalid-feedback text-left d-none" id="blank-regnum-error" style={{ color:'#FEDF00' }}>
                           Registration number cannot be blank
                         </div>

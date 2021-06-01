@@ -14,10 +14,8 @@ const GameScreen = () => {
     const user = useFacelessState();
     const dispatch = useFacelessDispatch();
 
-    const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [answers, setAnswers] = useState('');
-    const [story, setStory] = useState('');
     const [hint, setHint] = useState('');
 
     // method to trigger the toast on incorrect answer
@@ -63,12 +61,13 @@ const GameScreen = () => {
                     answers: answers
                 }
                 let response = await submitAnswers(payload);
-                console.log(response)
                 if (response.message === 'Level cleared') {
                     setLoading(true);
                     await getCharacterOfTeam();
                     await getStory();
                     await getQuestions();
+                    window.location.reload();
+                    setLoading(false);
                 } else if(Boolean(response.hint)){
                     setHint(response.hint);
                     document.getElementById('hint').classList.remove('d-none');
@@ -90,7 +89,6 @@ const GameScreen = () => {
                     }
                 } 
             } catch (error) {
-                console.log(error)
                 history.push('/notFound');
             }
         } else {
@@ -102,7 +100,7 @@ const GameScreen = () => {
     // method to fetch character
     const getCharacterOfTeam = async() => {
         try { 
-            let response = await getCharacterForTeam(dispatch);
+            await getCharacterForTeam(dispatch);
         } catch (error) {
             history.push('/notFound');
         }
@@ -111,11 +109,11 @@ const GameScreen = () => {
     // method to fetch the storyline for the character
     const getStory = async() => {
         try {
+            console.log(user)
             let payload = {
                 character: user.character
             }
-            let response = await getStoryline(payload);
-            setStory(response.story);            
+            let response = await getStoryline(dispatch, payload);            
         } catch (error) {
             history.push('/notFound');
         }
@@ -128,8 +126,6 @@ const GameScreen = () => {
                 name: user.character
             } 
             let response = await getQuestionsForTeam(dispatch, payload);
-            setQuestions(response);
-            setLoading(false);
         } catch (error) {
             history.push('/notFound');
         }
@@ -140,6 +136,7 @@ const GameScreen = () => {
         await getCharacterOfTeam();
         await getStory();
         await getQuestions();
+        setLoading(false);
     }, []);
 
     return (
@@ -155,12 +152,12 @@ const GameScreen = () => {
                 <div className="font-size-24 font-weight-bolder mt-20" style={{ color:'#FEDF00' }}>{user.character}</div>
                 <div className="text-justify font-size-16 text-light py-20 mb-xs-20" style={{ width: '80%' }}>
                     <ReactMarkdown>
-                        {story} 
+                        {user.story} 
                     </ReactMarkdown>                
                 </div>
                 <div className="w-full d-flex align-items-center flex-column p-20 font-size-18 text-white">
                     {
-                        questions.map((question, index) => {
+                        user.questions.map((question, index) => {
                                 return (
                                     <div key={index} className="d-flex flex-row w-400 w-md-500 align-items-center p-5">
                                         <div className="mx-15" style={{ color: '#FEDF00' }}>{index + 1}</div>

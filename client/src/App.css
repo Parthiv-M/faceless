@@ -1,5 +1,6 @@
 *{
     margin: 0;
+    scroll-behavior: smooth;
 }
 
 /* customising halfmoon colours */
@@ -183,7 +184,7 @@ input {
 /* reposnive design */
 
 @media only screen and (max-width: 800px){
-    .content {
+    .dashboard-content {
         padding: 18px;
     }
     .teamboard-card {

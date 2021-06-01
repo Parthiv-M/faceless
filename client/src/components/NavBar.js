@@ -1,7 +1,7 @@
-import { React, useEffect, useState } from 'react';
+import { React } from 'react';
 import logo from './../assets/incognitoLogo.png';
 import { Button } from 'reacthalfmoon';
-import { logout, useFacelessDispatch, getTeamDetails } from './../context';
+import { logout, useFacelessDispatch, useFacelessState } from './../context';
 import { useHistory } from 'react-router-dom';
 import { X, Menu } from 'react-feather';
 
@@ -10,20 +10,7 @@ const Navbar = () => {
     const dispatch = useFacelessDispatch();
     const history = useHistory();
 
-    const [team, setTeam] = useState({});
-
-    const getTeam = async() => {
-        try {
-            let response = await getTeamDetails(dispatch);
-            setTeam(response.teamData);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getTeam();
-    }, []);
+    const user = useFacelessState();
 
     // method to handle logout
     const handleLogout = async () => {
@@ -67,7 +54,7 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-content d-flex">
                     <div className="navbar-brand px-10 d-none d-md-block bg-transparent font-weight-bold">
-                        {team.teamName}
+                        {user.teamName}
                     </div>
                     <Button className="text-dark bg-transparent shadow-none d-none d-md-block" style={{ borderRadius: 30, border: '2px solid black' }} onClick={handleLogout}>
                         LOGOUT
@@ -79,7 +66,7 @@ const Navbar = () => {
                 <div className="sidebar d-none w-full z-10" id="sidebar" style={{ backgroundColor:'rgba(32,32,32,0.95)', height:'100vh' }}>
                   <div className="sidebar-menu d-flex flex-column align-items-center">
                       <div style={{position: 'fixed', top:'5rem', right: '4rem'}}><X color= 'white' onClick={toggleSideBar} size={40}/></div>
-                    <h1 className="sidebar-title text-center mb-20 pb-20 font-weight-bolder" style={{ color:'#FEDF00', fontSize: '3rem', marginTop:'10rem' }}>{team.teamName}</h1>
+                    <h1 className="sidebar-title text-center mb-20 pb-20 font-weight-bolder" style={{ color:'#FEDF00', fontSize: '3rem', marginTop:'10rem' }}>{user.teamName}</h1>
                     <div className="sidebar-divider"></div>
                     <a href="/dashboard" className="sidebar-link sidebar-link-with-icon font-size-24 font-weight-bolder text-white mx-20 my-15">
                       DASHBOARD

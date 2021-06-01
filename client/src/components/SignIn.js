@@ -38,6 +38,8 @@ const SignIn = () => {
     const handleSignIn = async (e) => {
         document.getElementById('invalid-password-error').classList.remove('d-block');
         document.getElementById('invalid-password-error').classList.add('d-none');
+        document.getElementById('invalid-email-error').classList.remove('d-block');
+        document.getElementById('invalid-email-error').classList.add('d-none');
         if(handleBlankFields()){
             e.preventDefault();      
             let payload = {
@@ -47,14 +49,15 @@ const SignIn = () => {
             setData(payload);
             try {
                 let response = await signInUser(dispatch, payload);
-                console.log(response);
                 if(response.message === 'Login successful') {
                     await getTeamDetails(dispatch);
                     history.push('/dashboard');
-                }
-                else if(response.data.errors[0].msg === 'Invalid Password') {
+                } else if(response.data.errors[0].msg === 'Invalid Password') {
                     document.getElementById('invalid-password-error').classList.remove('d-none');
                     document.getElementById('invalid-password-error').classList.add('d-block');
+                } else if(response.data.errors[0].msg === 'Invalid Credentials') {
+                    document.getElementById('invalid-email-error').classList.remove('d-none');
+                    document.getElementById('invalid-email-error').classList.add('d-block');
                 } 
             } catch (error) {
                 console.log(error);
@@ -80,7 +83,7 @@ const SignIn = () => {
             <div className='fixed-background position-fixed'></div>
             <div className="d-flex justify-content-center align-items-center h-full w-full flex-column float-left p-20">
                 <div className="w-full w-md-400 py-20">
-                    <div className="float-md-left font-size-24 font-weight-bolder" style = {{color:'#FEDF00'}}>WELCOME BACK</div>
+                    <div className="float-md-left font-size-24 font-weight-bolder" style={{ color:'#FEDF00' }}>WELCOME BACK</div>
                 </div>
                 <form className="w-md-400 w-350 mw-full">
                 <div className='form-group'>
@@ -88,6 +91,9 @@ const SignIn = () => {
                     <input type="text" className="form-control bg-transparent w-full" style={{borderRadius:'0.2rem', border:'2px solid #FEDF00', color:'#FEDF00', width:'90%'}} onChange={(e) => { data.email = e.target.value; }}/>
                     <div className="invalid-feedback text-left d-none" id="blank-email-error-signin" style={{ color:'#FEDF00' }}>
                         Email cannot be blank
+                    </div>
+                    <div className="invalid-feedback text-left d-none" id="invalid-email-error" style={{ color:'#FEDF00' }}>
+                        Invalid email ID
                     </div>
                 </div>
                 <div className='form-group'>

@@ -1,15 +1,18 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { ChevronRight } from 'react-feather';
 import { useHistory } from 'react-router-dom';
-import { joinTeam, useFacelessDispatch } from './../context';
+import Loading from './Loader';
+import { joinTeam, useFacelessDispatch, useFacelessState } from './../context';
 
 const JoinTeam = () => {
 
     // handles state of textfield data
     const [teamCode, setTeamCode] = useState('');
-    const [teamName, setTeamName] = useState('');   
+    const [teamName, setTeamName] = useState('');
+    const [loading, setLoading] = useState(true);   
 
     const history = useHistory();
+    const user = useFacelessState();
     const dispatch = useFacelessDispatch();
 
     // handle blank field errors
@@ -50,9 +53,21 @@ const JoinTeam = () => {
         } catch (error) {
             history.push('/notFound');
         } 
-      }
+    }
+
+    useEffect(() => {
+        if(user.teamName !== '') {
+            history.goBack();
+        } else {
+            setLoading(false);
+        }
+    }, []);
 
     return (
+        loading 
+        ?       
+        <Loading />
+        :
         <div className='container fixed-background m-auto'>
             <div className="d-flex flex-column float-left justify-content-center align-items-center h-full w-full pl-20">
                 <div className="w-full w-md-400 py-20">

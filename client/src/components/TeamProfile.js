@@ -32,7 +32,7 @@ const TeamProfile = () => {
         team.answerLog.length < 5 ?
         team.answerLog.reverse().map((answer) => {
         return (
-            <div className="p-10 m-10 text-white" style={{ textOverflow: 'ellipsis', backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
+            <div className="p-10 m-10 text-white" style={{ minWidth: 'fit-content', textOverflow: 'ellipsis', backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
                 <p>
                     {answer}
                 </p>
@@ -42,7 +42,7 @@ const TeamProfile = () => {
     ) :
     team.answerLog.slice(team.answerLog.length-5, team.answerLog.length).reverse().map((answer) => {
         return (
-            <div className="p-10 m-10 font-size-20 text-white" style={{ backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
+            <div className="p-10 m-10 font-size-20 text-white" style={{ minWidth: 'fit-content', backgroundColor:'rgba(72,72,72,0.4)', borderBottom:'solid 0.1rem #FEDF00' }}>
                 {answer}
             </div>
         )

@@ -10,7 +10,7 @@ const manComm = [
         name: 'Parthiv Menon',
         instagram: 'https://www.instagram.com/_.parthiv_/',
         github: 'https://github.com/Parthiv-M/',
-        linkedin: 'https://www.linkedin.com/in/shrenik-kalambur-999632187',
+        linkedin: 'https://www.linkedin.com/in/parthivmenon',
         image: 'https://live.staticflickr.com/65535/51209690700_855062841d.jpg'
     },
     {
@@ -73,7 +73,7 @@ const manComm = [
         name: 'Mehul',
         github: 'https://github.com/BeastBoy0121',
         linkedin: 'https://www.linkedin.com/in/mehul-maheshwari-34475411a/',
-        instagram: '',
+        instagram: 'https://www.instagram.com/mehul_mah/',
         image: 'https://live.staticflickr.com/65535/50379563446_950a336982_m.jpg'
     }
     ]
@@ -106,7 +106,7 @@ const Teamcards = manComm.map((item) => {
                         {
                             item.instagram 
                             ? 
-                            <a className='mx-10' target="_blank" href={item.instagram}>
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.instagram}>
                                 <Instagram color="white" size={30}/>
                             </a> 
                             : 
@@ -115,7 +115,7 @@ const Teamcards = manComm.map((item) => {
                         {
                             item.github 
                             ? 
-                            <a className='mx-10' target="_blank" href={item.github}>
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.github}>
                                 <GitHub color="white" size={30}/>
                             </a>
                             :
@@ -124,7 +124,7 @@ const Teamcards = manComm.map((item) => {
                         {
                             item.linkedin 
                             ?
-                            <a className='mx-10' target="_blank" href={item.linkedin}>
+                            <a className='mx-10' target="_blank" rel="noreferrer" href={item.linkedin}>
                                 <Linkedin color="white" size={30}/>
                             </a>
                             :
@@ -135,7 +135,7 @@ const Teamcards = manComm.map((item) => {
         </div>
     </div>
     )
-})
+});
 
 const wccards = wc.map((name) => {
     return(
@@ -143,16 +143,25 @@ const wccards = wc.map((name) => {
             {name}
         </div>
     )
-})
+});
 
 const Credits = () => {
     const history = useHistory();
     return (
-        <div className='container fixedBackground py-20 px-0 m-auto' style={{height:'fit-content'}}>
+        <div className='container fixed-background py-20 px-0 m-auto' style={{height:'fit-content'}}>
             <div className="d-flex flex-column justify-content-center align-items-center">
-                <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Media Partner</div>
-                <hr style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
-                <img src={mttnLogo} height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
+                <div className='d-flex w-md-three-quarter p-md-20 flex-column flex-md-row justify-content-md-between align-items-md-start'>
+                    <div className='mr-md-20 d-flex flex-column justify-content-center align-items-center'>
+                        <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Organised By</div>
+                        <div style={{ background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
+                        <img src={mistLogo} alt="MTTN logo" height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
+                    </div>
+                    <div className='ml-md-20 d-flex flex-column justify-content-center align-items-center'>
+                        <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Media Partner</div>
+                        <div style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
+                        <img src={mttnLogo} alt="MTTN logo" height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
+                    </div>
+                </div>
                 <div className="font-size-24 font-weight-bolder mt-10 pt-20" style={{color:'#FEDF00'}}>The Faces Behind Faceless</div>
                 <hr style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'4rem'}}/>
                 <div className="d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-center">
@@ -169,13 +178,12 @@ const Credits = () => {
                             <span className='pl-10'>Back to the game</span>
                         </button>
                 </div>
-                <div className='d-flex flex-column flex-md-row h-150 w-half justify-content-center align-items-center' style={{ bottom: 0, zIndex: -99 }}>
-                    <img src={mistLogo} alt='MIST Logo' className='h-50 d-none d-md-block mr-10'/>
+                <div className='d-flex h-150 w-half justify-content-center align-items-center' style={{ bottom: 0, zIndex: -99 }}>
                     <img src={incognitoLight} alt='Incognito logo' className='ml-10' height={80}/>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Credits

@@ -15,6 +15,8 @@ export const initialState = {
   token: token,
   teamName: team,
   character: character,
+  story: null,
+  questions: null,
   loading: false,
   errorMessage: null
 };
@@ -66,6 +68,18 @@ export const AuthReducer = (initialState, action) => {
           character: action.payload,
           loading: false,
         };
+    case "SET_QUESTIONS":
+      return {
+        ...initialState,
+        questions: action.payload,
+        loading: false,
+      };
+    case "SET_STORY":
+      return {
+        ...initialState,
+        story: action.payload,
+        loading: false,
+      };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

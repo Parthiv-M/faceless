@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { ChevronRight } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import { createTeam, useFacelessDispatch, useFacelessState } from './../context';
@@ -10,7 +10,8 @@ import './../App.css';
 const CreateTeam = () => {
 
     // handles state of textfield data
-    const [teamName, setTeamName] = useState('');   
+    const [teamName, setTeamName] = useState('');
+    const [loading, setLoading] = useState(true);   
 
     const history = useHistory();
     const dispatch = useFacelessDispatch();
@@ -74,14 +75,21 @@ const CreateTeam = () => {
                     }
                 } 
             } catch (error) {
-                console.log(error)
                 history.push('/notFound');
             }
         } 
     }
 
+    useEffect(() => {
+        if(user.teamName !== '') {
+            history.goBack();
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
     return (
-        user.loading 
+        loading 
         ?       
         <Loading />
         :

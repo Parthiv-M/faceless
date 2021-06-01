@@ -61,7 +61,8 @@ router.post('/createTeam', authenticate, async(req, res) => {
     }
 
     if(user.teamCode){
-        return res.status(401).send({ error: 'User is already part of the team' });
+        console.log('returning error');
+        return res.status(401).send({ error: 'User is already part of a team' });
     }
 
     // generating a random team code
