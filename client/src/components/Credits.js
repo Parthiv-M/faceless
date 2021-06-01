@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import mttnLogo from './../assets/MTTNLogo.png'
 import mistLogo  from './../assets/MISTlogoLight.png';
+import allmityLogo from './../assets/allmityLogo.png';
 import incognitoLight from './../assets/incognitoLogoLight.png';
 import { Instagram, GitHub, Linkedin, Home } from 'react-feather';
 
@@ -269,16 +270,21 @@ const Credits = () => {
     return (
         <div className='container fixed-background py-20 px-0 m-auto' style={{height:'fit-content'}}>
             <div className="d-flex flex-column justify-content-center align-items-center">
-                <div className='d-flex w-md-three-quarter p-md-20 flex-column flex-md-row justify-content-md-between align-items-md-start'>
-                    <div className='mr-md-20 d-flex flex-column justify-content-center align-items-center'>
-                        <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Organised By</div>
-                        <div style={{ background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
-                        <img src={mistLogo} alt="MTTN logo" height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
-                    </div>
-                    <div className='ml-md-20 d-flex flex-column justify-content-center align-items-center'>
+                <div className='d-flex w-md-full p-md-20 flex-column flex-md-row justify-content-md-between align-items-md-start'>
+                    <div className='mx-md-20 d-flex flex-column justify-content-center align-items-center'>
                         <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Media Partner</div>
                         <div style={{background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
-                        <img src={mttnLogo} alt="MTTN logo" height='auto' className='w-200 w-md-250' style={{padding:'3rem 0'}} />
+                        <img src={mttnLogo} alt="MTTN logo" height='auto' className='w-150 w-md-250' style={{padding:'3rem 0'}} />
+                    </div>
+                    <div className='mx-md-20 d-flex flex-column justify-content-center align-items-center'>
+                        <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>Organized by</div>
+                        <div style={{ background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
+                        <img src={mistLogo} alt="MIST logo" height='auto' className='w-200 w-md-250' style={{padding:'5rem 0 3rem 2rem'}} />
+                    </div>
+                    <div className='mx-md-20 d-flex flex-column justify-content-center align-items-center'>
+                        <div className="font-size-24 font-weight-bolder mt-10 p-0" style={{color:'#FEDF00'}}>App Partner</div>
+                        <div style={{ background:"white", width:'12rem', height:'0.2rem', marginBottom:'2rem'}}/>
+                        <img src={allmityLogo} alt="Allmity logo" height='auto' className='w-200 w-md-250' style={{padding:'6rem 0 3rem 0'}} />
                     </div>
                 </div>
                 <div className="font-size-24 font-weight-bolder mt-10 pt-20" style={{color:'#FEDF00'}}>Core Committee</div>
