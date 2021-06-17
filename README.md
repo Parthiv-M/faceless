@@ -12,16 +12,16 @@ This is the repository for the submission portal for Faceless 2021, an event hel
 ## Screenshots
 A few screenshots of the web portal created for the event.
 ### Landing Page
-![](https://raw.githubusercontent.com/Parthiv-M/faceless/main/extras/landingPage.png)
+![](https://raw.githubusercontent.com/Parthiv-M/faceless/master/extras/landingPage.png)
 
 ### Dashboard Page
-![](https://raw.githubusercontent.com/Parthiv-M/faceless/main/extras/dashboardLanding.png)
+![](https://raw.githubusercontent.com/Parthiv-M/faceless/master/extras/dashboardLanding.png)
 
 ### Scorecard Page
-![](https://raw.githubusercontent.com/Parthiv-M/faceless/main/extras/scoreboardPage.png)
+![](https://raw.githubusercontent.com/Parthiv-M/faceless/master/extras/scoreboardPage.png)
 
 ### Credits Page
-![](https://raw.githubusercontent.com/Parthiv-M/faceless/main/extras/creditsPage.png)
+![](https://raw.githubusercontent.com/Parthiv-M/faceless/master/extras/creditsPage.png)
 
 ## Contributors
 From design to development, everything was handled with the utmost care. 
