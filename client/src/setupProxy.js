@@ -4,7 +4,8 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://apifaceless.wearemist.in',
+      // target: 'https://apifaceless.wearemist.in',
+      target: 'http://localhost:3001',
       changeOrigin: true,
       headers: {
         "Connection": "keep-alive"
