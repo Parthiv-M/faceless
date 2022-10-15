@@ -22,7 +22,7 @@ const Team = new Schema({
     teamQuestions: [{
         character: {
             type: String,
-            default: 'Okami'
+            default: 'Hrithik'
         },
         questions: {
             type: Array
