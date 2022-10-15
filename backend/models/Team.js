@@ -37,7 +37,7 @@ const Team = new Schema({
     },
     character: {
         type: String,
-        default: 'Okami'
+        default: 'Hrithik'
     },
     flagged: [{
         character: {
