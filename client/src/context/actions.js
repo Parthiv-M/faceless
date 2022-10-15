@@ -19,7 +19,7 @@ export async function signUpUser(dispatch, signUpPayload) {
         if (response.status === 200) {
             dispatch({ type: 'SIGNUP_SUCCESS', payload: response.headers['x-auth-token'] });
             localStorage.setItem('token', response.headers['x-auth-token']);
-            localStorage.setItem('character', 'Okami');
+            localStorage.setItem('character', 'Hrithik');
             resp = response;
         }
       })
