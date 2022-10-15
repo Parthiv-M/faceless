@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
     if(req.answerLength === 3) {
         next();
     } else  if (req.answerLength === 5) {
-        let characters = ['Okami', 'Kendo', 'Hyotto', 'Kappa', 'Tengu', 'Oni', 'Hanya', 'Kitsune', 'Samuri'];
+        let characters = ['Hrithik', 'Bam', 'Sriracha', 'Roy Kapoor', 'PM Singh', 'Bachchan', 'Rana', 'Shukla', 'Khanna','CV','Raghuram Nayak'];
         try {
             // get the currect level of the player and determine next level 
             const currChar = req.params.character;
